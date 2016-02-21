@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.pitchedapps.material.glass.free.activities.MainActivity">
+    <item
+        android:id="@+id/rate"
+        android:orderInCategory="100"
+        android:title="@string/rate"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/send_email"
+        android:orderInCategory="200"
+        android:title="@string/send_email"
+        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/send_log"-->
+        <!--android:orderInCategory="101"-->
+        <!--android:title="@string/send_log"-->
+        <!--app:showAsAction="never" />-->
+    <item
+        android:id="@+id/changelog"
+        android:orderInCategory="300"
+        android:title="@string/changelog"
+        app:showAsAction="never" />
+</menu>

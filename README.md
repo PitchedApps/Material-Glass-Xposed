@@ -1,0 +1,1 @@
+https://github.com/rovo89/XposedBridge/wiki/Replacing-resources

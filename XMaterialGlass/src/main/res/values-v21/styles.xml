@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppThemeBase">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowBackground">@color/bgt</item>
+        <item name="android:statusBarColor">@color/bg</item>
+    </style>
+
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:colorAccent">@color/text</item>
+        <item name="android:backgroundTint">@color/bg</item>
+
+    </style>
+
+    <style name="PopUp" parent="ThemeOverlay.AppCompat">
+        <item name="android:colorBackground">@color/bg</item>
+    </style>
+
+</resources>

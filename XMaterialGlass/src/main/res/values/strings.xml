@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">XMaterial Glass</string>
+    <string name="xposed_description">An Add-On for Material Glass</string>
+
+
+    <string name="email_subject">XMaterial Glass Support</string>
+    <string name="email_id">pitchedapps@gmail.com</string>
+
+    <string name="hidden_app">This app is now hidden from the drawer. You can still access it from Xposed or Material Glass.</string>
+
+</resources>

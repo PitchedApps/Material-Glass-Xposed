@@ -1,0 +1,15 @@
+<resources>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
+    <string name="share">Share</string>
+    <string name="rate">Rate</string>
+    <string name="send_email">Send Email</string>
+    <string name="send_log">Send Log</string>
+    <string name="changelog">Changelog</string>
+    <string name="send_via">Send via</string>
+    <string name="nice">Nice</string>
+
+    <!--Not as Verbatim-->
+    <string name="changelog_dialog_title">Changelog</string>
+
+</resources>

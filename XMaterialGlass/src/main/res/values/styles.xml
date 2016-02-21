@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeBase" parent="Theme.AppCompat.NoActionBar" />
+    <style name="AppTheme" parent="AppThemeBase" />
+
+    <style name="Theme.Glass" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:panelColorBackground">#bb000000</item>
+        <item name="android:panelColorForeground">@color/text</item>
+        <item name="android:colorBackground">#aa000000</item>
+        <item name="android:colorForeground">@color/text</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:colorBackgroundCacheHint">@color/background</item>
+        <item name="android:colorControlActivated">@color/text</item>
+    </style>
+
+    <style name="Theme.Glass.2" parent="Theme.Glass">
+        <item name="android:actionBarStyle">@style/Widget.Glass.ActionBar</item>
+        <item name="android:statusBarColor">#80000000</item>
+        <item name="android:windowBackground">@color/bgt</item>
+        <item name="android:colorBackgroundCacheHint">@color/bgt</item>
+
+    </style>
+
+    <style name="Widget.Glass.ActionBar" parent="@android:style/Widget.Material.ActionBar">
+        <item name="android:colorBackground">#80000000</item>
+    </style>
+
+
+</resources>

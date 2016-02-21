@@ -1,0 +1,26 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/main_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgt">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/bgt2"
+        app:popupTheme="@style/PopUp"
+        android:elevation="12dp"/>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:elevation="6dp"/>
+
+</RelativeLayout>

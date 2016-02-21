@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorAccent">#fff</color>
+    <color name="bgt">#30000000</color>
+    <color name="bgt2">#50000000</color>
+    <color name="bg">#a0000000</color>
+    <color name="background">#80000000</color>
+    <color name="bgx">#000</color>
+    <color name="text">#fff</color>
+    <color name="textt">#bbffffff</color>
+    <color name="background_floating_material_dark">#cc060606</color>
+    <color name="snackbar">#dd111111</color>
+    <color name="ripple">#88ffffff</color>
+    <color name="card">#33000000</color>
+</resources>

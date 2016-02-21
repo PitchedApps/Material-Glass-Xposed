@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="fullchangelog">
+        <item>@array/v0</item>
+    </string-array>
+
+	
+    <string-array name="v">
+        <item>v</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="v0">
+        <item>v0.0.0</item>
+        <item>January 19th, 2016: Commenced XMaterial Glass project</item>
+    </string-array>
+
+</resources>
