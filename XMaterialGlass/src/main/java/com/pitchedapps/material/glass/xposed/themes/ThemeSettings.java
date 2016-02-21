@@ -1,26 +1,19 @@
 package com.pitchedapps.material.glass.xposed.themes;
 
-import android.app.Activity;
-import android.content.res.ColorStateList;
-import android.os.Bundle;
-import android.preference.ListPreference;
-import android.widget.Button;
+import android.view.View;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
-import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import static de.robv.android.xposed.XposedHelpers.findClass;
+import de.robv.android.xposed.callbacks.XC_InitPackageResources;
+import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 
 /**
  * Created by 7681 on 2016-02-19.
  */
-public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookLoadPackage {
+public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookInitPackageResources {
 
     public XSharedPreferences prefs;
 
@@ -31,10 +24,12 @@ public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookLoadPack
 
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
+        prefs.reload();
 
-        if (!lpparam.packageName.equals("com.android.settings")) {
+        if (!resparam.packageName.equals("com.android.settings")) {
             return;
         }
 
@@ -42,24 +37,20 @@ public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookLoadPack
             return;
         }
 
-//        final Class<?> AppStorageSettings = findClass("com.android.settings.applications.AppStorageSettings", lpparam.classLoader);
-
         try {
-            findAndHookMethod("com.android.settings.applications.AppStorageSettings", lpparam.classLoader, "setupViews", new XC_MethodHook() {
+            resparam.res.hookLayout("com.android.settings", "layout", "single_button_panel", new XC_LayoutInflated() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    ListPreference lp = (ListPreference) param.thisObject;
-                    Button button = (Button) param.thisObject;
-                    button.setBackgroundTintList(ColorStateList.valueOf(0x330000));
-//                    button.setBackgroundColor(0x33000000);
-//                    Activity activity = (Activity) param.thisObject;
-//                    activity
+                public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+                    Common.xLog("got layout");
+                    View button = liparam.view.findViewById(liparam.res.getIdentifier("button", "id", "com.android.settings"));
+                    Common.xLog("button " + button);
+//                    button.setBackgroundColor(ContextCompat.getColor(MainActivity.class, android.R.color.holo_red_dark));
+//                    button.setBackgroundTintList(ColorStateList.valueOf(0xFF0000));
                 }
             });
         } catch (Exception e) {
             Common.xLogError(e);
         }
     }
-
 
 }

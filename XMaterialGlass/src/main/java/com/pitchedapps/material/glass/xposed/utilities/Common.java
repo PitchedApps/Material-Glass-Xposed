@@ -1,14 +1,10 @@
 package com.pitchedapps.material.glass.xposed.utilities;
 
-import android.app.Activity;
 import android.util.Log;
-
-import com.pitchedapps.material.glass.xposed.MainActivity;
-import com.pitchedapps.material.glass.xposed.R;
 
 import de.robv.android.xposed.XposedBridge;
 
-public class Common extends Activity {
+public class Common {
 
     public static String PACKAGE_NAME = "com.pitchedapps.material.glass.xposed";
 
@@ -22,7 +18,7 @@ public class Common extends Activity {
 
     public static void xLogError (Exception e) {
         xLog("Error Message: " + e.getMessage());
-        xLog("Error Cause: " + e.getCause().toString() + "\n");
+        xLog("Error Cause: " + e.getCause() + "\n");
     }
 
 }

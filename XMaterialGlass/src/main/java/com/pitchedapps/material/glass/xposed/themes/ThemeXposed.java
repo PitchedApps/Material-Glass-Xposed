@@ -5,12 +5,10 @@ import android.os.Bundle;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
-import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
-import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -19,7 +17,7 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 /**
  * Created by 7681 on 2016-02-19.
  */
-public class ThemeXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
+public class ThemeXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
     public static String MODULE_PATH = null;
     public XSharedPreferences prefs;
@@ -31,7 +29,7 @@ public class ThemeXposed implements IXposedHookZygoteInit, IXposedHookLoadPackag
         prefs.makeWorldReadable();
 
     }
-
+/*
     @SuppressWarnings("deprecation")
     @Override
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
@@ -45,23 +43,23 @@ public class ThemeXposed implements IXposedHookZygoteInit, IXposedHookLoadPackag
             return;
         }
 
-//        final XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
+        final XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
 
         //TODO make this work
-//        DrawableLoader cardBackground = new DrawableLoader() {
-//            @Override
-//            public Drawable newDrawable(XResources xResources, int i) throws Throwable {
-//                return modRes.getDrawable(R.drawable.card_background);
-//            }
-//        };
-//
-//        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_light", cardBackground);
-//        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_pressed_light", cardBackground);
-//        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_dark", cardBackground);
-//        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_pressed_dark", cardBackground);
-//        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_black", cardBackground);
-//        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_pressed_black", cardBackground);
-    }
+        DrawableLoader cardBackground = new DrawableLoader() {
+            @Override
+            public Drawable newDrawable(XResources xResources, int i) throws Throwable {
+                return modRes.getDrawable(R.drawable.card_background);
+            }
+        };
+
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_light", cardBackground);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_pressed_light", cardBackground);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_dark", cardBackground);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_pressed_dark", cardBackground);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_black", cardBackground);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "drawable", "background_card_pressed_black", cardBackground);
+    } */
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
