@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--'/' = new bullet point-->
-    <array name="theme_list">
+    <array name="theme_list_main">
         <item>Xposed</item>
         <item>Make sure you pick the dark theme mode! / Materialize Xposed</item>
         <item>SystemUI</item>
         <item>SystemUI test</item>
         <item>Settings</item>
         <item>Fix the white button issue</item>
+    </array>
+
+    <array name="theme_list_layers">
+        <item>Adaway</item>
+        <item>Make adaway transparent</item>
     </array>
 </resources>

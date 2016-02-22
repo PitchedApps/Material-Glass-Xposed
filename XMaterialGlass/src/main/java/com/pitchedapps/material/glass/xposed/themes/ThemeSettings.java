@@ -24,7 +24,6 @@ public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookInitPack
 
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
         prefs.reload();

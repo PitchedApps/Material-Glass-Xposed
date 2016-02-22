@@ -29,9 +29,10 @@ public class MainActivity extends AppCompatActivity {
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        String[] themeList = getResources().getStringArray(R.array.theme_list);
+        String[] themeListMain = getResources().getStringArray(R.array.theme_list_main);
+        String[] themeListLayers = getResources().getStringArray(R.array.theme_list_layers);
 
-        ThemePreferences themePrefs = ThemePreferences.newInstance(themeList);
+        ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers);
 
         //hide app icon
         ComponentName componentName = new ComponentName(this, HomeActivity.class);
