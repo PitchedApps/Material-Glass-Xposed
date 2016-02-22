@@ -75,12 +75,14 @@ public class ThemePreferences extends PreferenceFragment {
         PreferenceCategory cMain = new PreferenceCategory(context);
         cMain.setTitle(R.string.pref_category_main);
         prefScreen.addPreference(cMain);
+        cMain.setDependency(MASTER_TOGGLE);
 
         initPreferences(themeListMain, "", cMain);
 
         PreferenceCategory cLayers = new PreferenceCategory(context);
         cLayers.setTitle(R.string.pref_category_layers);
         prefScreen.addPreference(cLayers);
+        cLayers.setDependency(MASTER_TOGGLE);
 
         initPreferences(themeListLayers, "_layers", cLayers);
 
@@ -136,10 +138,6 @@ public class ThemePreferences extends PreferenceFragment {
             category.addPreference(pr);
         }
 
-        //set dependency
-        for(int i = 0; i < list.length; i++) {
-            getPreferenceScreen().findPreference(list[i][0] + prefix).setDependency(MASTER_TOGGLE);
-        }
     }
 
 }
