@@ -22,17 +22,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String[] themeListMain = this.getResources().getStringArray(R.array.theme_list_main);
+        String[] themeListLayers = this.getResources().getStringArray(R.array.theme_list_layers);
+
+        Intent intent = new Intent(MainActivity.this, Intro.class);
+        startActivity(intent);
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
-        String[] themeListMain = getResources().getStringArray(R.array.theme_list_main);
-        String[] themeListLayers = getResources().getStringArray(R.array.theme_list_layers);
-
-        ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers);
 
         //hide app icon
         ComponentName componentName = new ComponentName(this, HomeActivity.class);
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), getResources().getString(R.string.hidden_app), 5000);
         }
 
+        ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers);
 
         getFragmentManager().beginTransaction().replace(R.id.container, themePrefs).commit();
     }

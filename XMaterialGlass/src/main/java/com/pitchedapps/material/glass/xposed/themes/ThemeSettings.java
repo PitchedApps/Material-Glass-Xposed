@@ -1,13 +1,14 @@
 package com.pitchedapps.material.glass.xposed.themes;
 
-import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XSharedPreferences;
-import de.robv.android.xposed.callbacks.XC_InitPackageResources;
+import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 
 /**
@@ -16,16 +17,17 @@ import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookInitPackageResources {
 
     public XSharedPreferences prefs;
+    public static String MODULE_PATH = null;
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
         prefs.makeWorldReadable();
-
+        MODULE_PATH = startupParam.modulePath;
     }
 
     @Override
-    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
+    public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
         prefs.reload();
 
         if (!resparam.packageName.equals("com.android.settings")) {
@@ -36,19 +38,31 @@ public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookInitPack
             return;
         }
 
+        Common.xLog("now settings is running" + resparam.packageName);
+
+//        XModuleResources modRes = XModuleResources.createInstance(ThemeSettings.MODULE_PATH, resparam.res);
+
+//        resparam.res.hookLayout("com.android.settings", "layout", "single_button_panel", new XC_LayoutInflated() {
+//            @Override
+//            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+//                Common.xLog("asdf " + liparam.view.getRootView());
+//                LinearLayout preferenceCategory = (LinearLayout) liparam.view.getRootView();
+//                preferenceCategory.setBackgroundColor(0xFFFF0000);
+//            }
+//        });
         try {
             resparam.res.hookLayout("com.android.settings", "layout", "single_button_panel", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
-                    Common.xLog("got layout");
-                    View button = liparam.view.findViewById(liparam.res.getIdentifier("button", "id", "com.android.settings"));
-                    Common.xLog("button " + button);
-//                    button.setBackgroundColor(ContextCompat.getColor(MainActivity.class, android.R.color.holo_red_dark));
-//                    button.setBackgroundTintList(ColorStateList.valueOf(0xFF0000));
+                    Button button = (Button) liparam.view.findViewById(
+                            liparam.res.getIdentifier("button", "id", "com.android.settings"));
+                    button.setText("hello");
+                    Common.xLog("button text set successfully");
                 }
             });
         } catch (Exception e) {
             Common.xLogError(e);
+            Common.xLog("aaa");
         }
     }
 

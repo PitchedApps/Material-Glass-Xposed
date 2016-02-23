@@ -11,4 +11,8 @@
     <string name="pref_category_main">Main</string>
     <string name="pref_category_layers">Layers Themes</string>
 
+
+    <string name="slide_title_1">Test</string>
+    <string name="slide_description_1">tttttttttttttt</string>
+
 </resources>

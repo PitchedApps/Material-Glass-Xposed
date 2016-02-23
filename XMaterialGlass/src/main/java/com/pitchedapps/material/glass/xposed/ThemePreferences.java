@@ -123,11 +123,13 @@ public class ThemePreferences extends PreferenceFragment {
                             .setPositiveButton(R.string.enable, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     pr.setChecked(true);
+                                    Common.log("New Preferences: " + prefs.getAll());
                                 }
                             })
                             .setNegativeButton(R.string.disable, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     pr.setChecked(false);
+                                    Common.log("New Preferences: " + prefs.getAll());
                                 }
                             })
                             .show();

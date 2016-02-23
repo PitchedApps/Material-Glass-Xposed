@@ -11,6 +11,7 @@
 # Eclipse related files
 #############################################################################
 
+!sample-apk/
 *.pydevproject
 .metadata
 .gradle
