@@ -77,4 +77,4 @@ proguard/
 *.iml
 *.lnk
 
-!sample-apk
+!sample-apk/*.apk
