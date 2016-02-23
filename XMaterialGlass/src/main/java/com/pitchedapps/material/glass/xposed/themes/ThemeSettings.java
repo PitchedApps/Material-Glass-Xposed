@@ -40,7 +40,7 @@ public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookInitPack
         Common.xLog("now settings is running " + resparam.packageName);
 
         try {
-            resparam.res.hookLayout("com.android.settings", "layout", "search_panel", new XC_LayoutInflated() {
+            resparam.res.hookLayout("com.android.settings", "layout", "single_button_panel", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
                     Common.xLog("got to here");
