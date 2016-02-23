@@ -26,8 +26,12 @@ public class MainActivity extends AppCompatActivity {
         String[] themeListMain = this.getResources().getStringArray(R.array.theme_list_main);
         String[] themeListLayers = this.getResources().getStringArray(R.array.theme_list_layers);
 
-        Intent intent = new Intent(MainActivity.this, Intro.class);
-        startActivity(intent);
+        ComponentName componentName = new ComponentName(this, HomeActivity.class);
+
+        if(isLauncherIconVisible(componentName)) {
+            Intent intent = new Intent(MainActivity.this, Intro.class);
+            startActivity(intent);
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -37,9 +41,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         //hide app icon
-        ComponentName componentName = new ComponentName(this, HomeActivity.class);
-        PackageManager p = this.getPackageManager();
         if (isLauncherIconVisible(componentName)) {
+            PackageManager p = this.getPackageManager();
             p.setComponentEnabledSetting(componentName,
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                     PackageManager.DONT_KILL_APP);

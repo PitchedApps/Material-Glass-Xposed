@@ -40,8 +40,6 @@ public class ThemeBasic implements IXposedHookZygoteInit, IXposedHookLoadPackage
             return;
         }
 
-//        final XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
-
         if (prefs.getBoolean("Adaway_layers", false) && resparam.packageName.equals("org.adaway")) {
             XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
         }
@@ -57,27 +55,24 @@ public class ThemeBasic implements IXposedHookZygoteInit, IXposedHookLoadPackage
             return;
         }
 
-        if (!(prefs.getBoolean("Adaway_layers", false) && lpparam.packageName.equals("org.adaway"))
+        if (prefs.getBoolean("Adaway_layers", false) && lpparam.packageName.equals("org.adaway" )
 
                 ) {
-            return;
-        }
 
-        Common.xLog("ThemeBasic enabled");
+            findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param)
+                        throws Throwable {
+                    prefs.reload();
+                    Activity a = (Activity) param.thisObject;
+                    Common.xLog("ThemeBasic enabled for " + pname);
+                    a.setTheme(android.R.style.Theme_DeviceDefault);
 
-        findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook(){
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param)
-                    throws Throwable {
-                prefs.reload();
-                Activity a = (Activity) param.thisObject;
-                Common.xLog("ThemeBasic enabled for " + pname);
-                a.setTheme(android.R.style.Theme_DeviceDefault);
-
-                if (prefs.getBoolean("Adaway_layers", false)) {
-                    a.getWindow().setStatusBarColor(0xFF9C2020);
+                    if (prefs.getBoolean("Adaway_layers", false)) {
+                        a.getWindow().setStatusBarColor(0xFF9C2020);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }

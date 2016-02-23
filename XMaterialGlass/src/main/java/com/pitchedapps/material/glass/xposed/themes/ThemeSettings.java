@@ -1,7 +1,6 @@
 package com.pitchedapps.material.glass.xposed.themes;
 
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
@@ -38,31 +37,25 @@ public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookInitPack
             return;
         }
 
-        Common.xLog("now settings is running" + resparam.packageName);
+        Common.xLog("now settings is running " + resparam.packageName);
 
-//        XModuleResources modRes = XModuleResources.createInstance(ThemeSettings.MODULE_PATH, resparam.res);
-
-//        resparam.res.hookLayout("com.android.settings", "layout", "single_button_panel", new XC_LayoutInflated() {
-//            @Override
-//            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
-//                Common.xLog("asdf " + liparam.view.getRootView());
-//                LinearLayout preferenceCategory = (LinearLayout) liparam.view.getRootView();
-//                preferenceCategory.setBackgroundColor(0xFFFF0000);
-//            }
-//        });
         try {
-            resparam.res.hookLayout("com.android.settings", "layout", "single_button_panel", new XC_LayoutInflated() {
+            resparam.res.hookLayout("com.android.settings", "layout", "search_panel", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
-                    Button button = (Button) liparam.view.findViewById(
-                            liparam.res.getIdentifier("button", "id", "com.android.settings"));
-                    button.setText("hello");
-                    Common.xLog("button text set successfully");
+                    Common.xLog("got to here");
+                    try {
+                        Button button = (Button) liparam.view.findViewById(
+                                liparam.res.getIdentifier("button", "id", "com.android.settings"));
+                        button.setText("hello");
+                        Common.xLog("button text set successfully");
+                    } catch (Exception e) {
+                        Common.xLog("asdf " + e);
+                    }
                 }
             });
         } catch (Exception e) {
-            Common.xLogError(e);
-            Common.xLog("aaa");
+            Common.xLog("fdsa " + e);
         }
     }
 
