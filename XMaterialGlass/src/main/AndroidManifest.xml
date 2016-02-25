@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pitchedapps.material.glass.xposed">
 
     <!--android:sharedUserId="android.uid.MGlass"-->
@@ -33,7 +34,8 @@
         </activity>
         <activity android:name=".Intro"
             android:theme="@style/Theme.Intro.Transparent"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            tools:ignore="UnusedAttribute">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

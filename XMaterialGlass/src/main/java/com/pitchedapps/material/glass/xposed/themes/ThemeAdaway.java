@@ -19,7 +19,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 /**
  * Created by 7681 on 2016-02-19.
  */
-public class ThemeBasic implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
+public class ThemeAdaway implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
     public static String MODULE_PATH = null;
     public XSharedPreferences prefs;
@@ -42,6 +42,7 @@ public class ThemeBasic implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
         if (prefs.getBoolean("Adaway_layers", false) && resparam.packageName.equals("org.adaway")) {
             XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
+            Common.e("aday prim");
         }
 
     }
@@ -55,22 +56,19 @@ public class ThemeBasic implements IXposedHookZygoteInit, IXposedHookLoadPackage
             return;
         }
 
-        if (prefs.getBoolean("Adaway_layers", false) && lpparam.packageName.equals("org.adaway" )
+        Common.e("asdfasdf");
 
-                ) {
+        if (prefs.getBoolean("Adaway_layers", false) && lpparam.packageName.equals("org.adaway" )) {
+            Common.e("asdasdffasdf");
 
             findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param)
                         throws Throwable {
-                    prefs.reload();
                     Activity a = (Activity) param.thisObject;
                     Common.xLog("ThemeBasic enabled for " + pname);
                     a.setTheme(android.R.style.Theme_DeviceDefault);
-
-                    if (prefs.getBoolean("Adaway_layers", false)) {
-                        a.getWindow().setStatusBarColor(0xFF9C2020);
-                    }
+                    a.getWindow().setStatusBarColor(0xFF9C2020);
                 }
             });
         }

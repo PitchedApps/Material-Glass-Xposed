@@ -19,31 +19,10 @@ import com.pitchedapps.material.glass.xposed.R;
  */
 public class Utils {
 
-    public static String getAppVersion(Context context) {
-        try {
-            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            // this should never happen
-            return "Unknown";
-        }
-    }
-
     public static String getAppPackageName(Context context) {
         return context.getPackageName();
     }
 
-
-    public static boolean isAppInstalled(Context context, String packageName) {
-        final PackageManager pm = context.getPackageManager();
-        boolean installed;
-        try {
-            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
-            installed = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            installed = false;
-        }
-        return installed;
-    }
 
     public static void showSimpleSnackbar(Context context, View location, String text, int duration) {
 
@@ -75,20 +54,6 @@ public class Utils {
             indefiniteSnackbar.setDuration(duration);
             indefiniteSnackbar.show();
         }
-    }
-
-    public static void openLink(Context context, String link) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
-
-    public static void showLog(String s) {
-        Log.d("XMaterial Glass: ", s);
-    }
-
-    public static String getStringFromResources(Context context, int id) {
-        return context.getResources().getString(id);
     }
 
     public static void sendEmailWithDeviceInfo(Context context) {

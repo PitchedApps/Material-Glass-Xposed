@@ -18,6 +18,7 @@ import com.pitchedapps.material.glass.xposed.utilities.Utils;
 public class MainActivity extends AppCompatActivity {
 
     private static final String MARKET_URL = "https://play.google.com/store/apps/details?id=";
+    private ComponentName componentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         String[] themeListMain = this.getResources().getStringArray(R.array.theme_list_main);
         String[] themeListLayers = this.getResources().getStringArray(R.array.theme_list_layers);
 
-        ComponentName componentName = new ComponentName(this, HomeActivity.class);
+        componentName = new ComponentName(this, HomeActivity.class);
 
         if(isLauncherIconVisible(componentName)) {
             Intent intent = new Intent(MainActivity.this, Intro.class);
@@ -40,17 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        //hide app icon
-        if (isLauncherIconVisible(componentName)) {
-            PackageManager p = this.getPackageManager();
-            p.setComponentEnabledSetting(componentName,
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP);
-
-            Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), getResources().getString(R.string.hidden_app), 5000);
-        }
-
-        ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers);
+        ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers, isLauncherIconVisible(componentName));
 
         getFragmentManager().beginTransaction().replace(R.id.container, themePrefs).commit();
     }
@@ -98,6 +89,15 @@ public class MainActivity extends AppCompatActivity {
         int enabledSetting = getPackageManager()
                 .getComponentEnabledSetting(componentName);
         return enabledSetting != PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+    }
+
+    public void removeLauncherIcon() {
+        PackageManager p = this.getPackageManager();
+        p.setComponentEnabledSetting(componentName,
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
+        Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), getResources().getString(R.string.hidden_app), 5000);
+
     }
 
 

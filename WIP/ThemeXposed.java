@@ -84,7 +84,7 @@ public class ThemeXposed implements IXposedHookZygoteInit, IXposedHookLoadPackag
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     Activity activity = (Activity) param.thisObject;
                     activity.setTheme(android.R.style.Theme_DeviceDefault);
-                    Common.xLog("activity " + activity.getWindow());
+                    Common.e("activity " + activity.getWindow());
                     activity.getWindow().setNavigationBarColor(0x99000000);
                 }
             });

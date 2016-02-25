@@ -28,13 +28,15 @@ public class ThemePreferences extends PreferenceFragment {
     public static Context context;
     static String[][] themeListMain, themeListLayers;
     public static SharedPreferences prefs;
+    private static boolean launcherApp;
     private PreferenceScreen prefScreen;
     private static final String MASTER_TOGGLE = "master_toggle";
 
-    public static ThemePreferences newInstance(String[] listMain, String[] listLayers) {
+    public static ThemePreferences newInstance(String[] listMain, String[] listLayers, boolean launcherApp2) {
         ThemePreferences themePrefs = new ThemePreferences();
 		themeListMain = convertList(listMain);
 		themeListLayers = convertList(listLayers);
+        launcherApp = launcherApp2;
         return themePrefs;
     }
 
@@ -68,8 +70,21 @@ public class ThemePreferences extends PreferenceFragment {
         //master toggle
         final SwitchPreference mt = new SwitchPreference(context);
         mt.setKey(MASTER_TOGGLE);
+        mt.setDefaultValue(false);
         mt.setTitle("Master Toggle");
         mt.setSummary("Toggle this module on the fly.");
+        mt.setOnPreferenceClickListener(new SwitchPreference.OnPreferenceClickListener() {
+            @Override //remove icon if it hasn't been already
+            public boolean onPreferenceClick(Preference preference) {
+                if (launcherApp) {
+                    if (mt.isChecked()) {
+                        ((MainActivity) getActivity()).removeLauncherIcon();
+                        launcherApp = false;
+                    }
+                }
+                return false;
+            }
+        });
         prefScreen.addPreference(mt);
 
         PreferenceCategory cMain = new PreferenceCategory(context);
@@ -109,6 +124,7 @@ public class ThemePreferences extends PreferenceFragment {
             final CheckBoxPreference pr = new CheckBoxPreference(context);
             pr.setKey(list[finalI][0] + prefix); //app name
             pr.setTitle(list[finalI][0]);
+            pr.setDefaultValue(false);
             pr.setOnPreferenceClickListener(new CheckBoxPreference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

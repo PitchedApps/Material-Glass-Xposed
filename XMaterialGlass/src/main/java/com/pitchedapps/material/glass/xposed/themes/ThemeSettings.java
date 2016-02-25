@@ -1,43 +1,50 @@
 package com.pitchedapps.material.glass.xposed.themes;
 
+import android.app.Activity;
+import android.content.res.XResources;
+import android.os.Bundle;
 import android.widget.Button;
 
+import com.pitchedapps.material.glass.xposed.R;
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
+import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-/**
- * Created by 7681 on 2016-02-19.
- */
-public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookInitPackageResources {
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
-    public XSharedPreferences prefs;
+public class ThemeSettings implements IXposedHookInitPackageResources, IXposedHookZygoteInit {
+
     public static String MODULE_PATH = null;
+    public static XSharedPreferences prefs;
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
+        MODULE_PATH = startupParam.modulePath;
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
         prefs.makeWorldReadable();
-        MODULE_PATH = startupParam.modulePath;
     }
 
     @Override
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
         prefs.reload();
 
-        if (!resparam.packageName.equals("com.android.settings")) {
+        if (!prefs.getBoolean("master_toggle", false)) {
             return;
         }
 
-        if (!prefs.getBoolean("Settings", false) || !prefs.getBoolean("master_toggle", false)) {
+        if (!(prefs.getBoolean("Settings", false) && resparam.packageName.equals("com.android.settings"))) {
             return;
         }
 
-        Common.xLog("now settings is running " + resparam.packageName);
+
+        Common.r("Settings");
 
         try {
             resparam.res.hookLayout("com.android.settings", "layout", "single_button_panel", new XC_LayoutInflated() {
@@ -57,6 +64,7 @@ public class ThemeSettings implements IXposedHookZygoteInit, IXposedHookInitPack
         } catch (Exception e) {
             Common.xLog("fdsa " + e);
         }
+
     }
 
 }

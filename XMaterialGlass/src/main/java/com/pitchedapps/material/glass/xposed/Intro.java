@@ -26,21 +26,21 @@ public class Intro extends IntroActivity {
         addSlide(new SimpleSlide.Builder()
                 .title(R.string.slide_title_1)
                 .description(R.string.slide_description_1)
-//                .image(R.drawable.image_1)
+                .image(R.color.background)
                 .background(R.color.slide_background_1)
                 .backgroundDark(R.color.slide_background_dark_1)
                 .build());
-
         addSlide(new SimpleSlide.Builder()
                 .title(R.string.slide_title_1)
                 .description(R.string.slide_description_1)
+                .image(R.color.background)
                 .background(R.color.slide_background_1)
                 .backgroundDark(R.color.slide_background_dark_1)
                 .build());
-
         addSlide(new SimpleSlide.Builder()
                 .title(R.string.slide_title_1)
                 .description(R.string.slide_description_1)
+                .image(R.color.background)
                 .background(R.color.slide_background_1)
                 .backgroundDark(R.color.slide_background_dark_1)
                 .build());

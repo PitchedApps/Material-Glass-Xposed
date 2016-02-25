@@ -8,6 +8,8 @@
         <item>Adds a smiley face by the clock text. / This is just a test</item>
         <item>Settings</item>
         <item>Fix the white button issue</item>
+        <item>Instagram</item>
+        <item>Make instagram transparent</item>
     </array>
 
     <array name="theme_list_layers">
