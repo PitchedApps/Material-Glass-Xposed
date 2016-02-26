@@ -29,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
         componentName = new ComponentName(this, HomeActivity.class);
 
-        if(isLauncherIconVisible(componentName)) {
-            Intent intent = new Intent(MainActivity.this, Intro.class);
-            startActivity(intent);
-        }
+//        if(isLauncherIconVisible(componentName)) {
+//            Intent intent = new Intent(MainActivity.this, Intro.class);
+//            startActivity(intent);
+//        }
 
         setContentView(R.layout.activity_main);
 

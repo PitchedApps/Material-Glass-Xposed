@@ -70,7 +70,7 @@ public class ThemePreferences extends PreferenceFragment {
         //master toggle
         final SwitchPreference mt = new SwitchPreference(context);
         mt.setKey(MASTER_TOGGLE);
-        mt.setDefaultValue(false);
+        mt.setDefaultValue(true);
         mt.setTitle("Master Toggle");
         mt.setSummary("Toggle this module on the fly.");
         mt.setOnPreferenceClickListener(new SwitchPreference.OnPreferenceClickListener() {
@@ -103,18 +103,18 @@ public class ThemePreferences extends PreferenceFragment {
 
         Common.log("Preferences: " + prefs.getAll());
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        // Set preferences file permissions to be world readable
-        File prefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
-        File prefsFile = new File(prefsDir, getPreferenceManager().getSharedPreferencesName() + ".xml");
-        if (prefsFile.exists()) {
-            prefsFile.setReadable(true, false);
-        }
-    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//
+//        // Set preferences file permissions to be world readable
+//        File prefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
+//        File prefsFile = new File(prefsDir, getPreferenceManager().getSharedPreferencesName() + ".xml");
+//        if (prefsFile.exists()) {
+//            prefsFile.setReadable(true, false);
+//        }
+//    }
 
     private void initPreferences(final String[][] list, String prefix, PreferenceCategory category) {
 
@@ -124,7 +124,6 @@ public class ThemePreferences extends PreferenceFragment {
             final CheckBoxPreference pr = new CheckBoxPreference(context);
             pr.setKey(list[finalI][0] + prefix); //app name
             pr.setTitle(list[finalI][0]);
-            pr.setDefaultValue(false);
             pr.setOnPreferenceClickListener(new CheckBoxPreference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

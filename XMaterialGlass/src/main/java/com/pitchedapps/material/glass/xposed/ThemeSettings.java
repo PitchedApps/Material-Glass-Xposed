@@ -1,4 +1,4 @@
-package com.pitchedapps.material.glass.xposed.themes;
+package com.pitchedapps.material.glass.xposed;
 
 import android.app.Activity;
 import android.content.res.XResources;

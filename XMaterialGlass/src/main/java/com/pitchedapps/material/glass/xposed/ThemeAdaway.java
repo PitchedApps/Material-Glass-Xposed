@@ -1,4 +1,4 @@
-package com.pitchedapps.material.glass.xposed.themes;
+package com.pitchedapps.material.glass.xposed;
 
 import android.app.Activity;
 import android.content.res.XResources;
@@ -12,7 +12,7 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
@@ -27,48 +27,51 @@ public class ThemeAdaway implements IXposedHookZygoteInit, IXposedHookLoadPackag
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         MODULE_PATH = startupParam.modulePath;
-        prefs = new XSharedPreferences(Common.PACKAGE_NAME);
+        prefs = new XSharedPreferences("com.pitchedapps.material.glass.xposed");
         prefs.makeWorldReadable();
-
     }
 
     @Override
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
         prefs.reload();
 
-        if (!prefs.getBoolean("master_toggle", false)) {
-            return;
-        }
+//        if (!prefs.getBoolean("master_toggle", false)) {
+//            return;
+//        }
+//
+//        if (prefs.getBoolean("Adaway_layers", false) && resparam.packageName.equals("org.adaway")) {
+//            XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
+//            Common.e("aday prim");
+//        }
 
-        if (prefs.getBoolean("Adaway_layers", false) && resparam.packageName.equals("org.adaway")) {
+        if (resparam.packageName.equals("org.adaway")) {
             XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
-            Common.e("aday prim");
         }
 
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        final String pname = lpparam.packageName;
+    public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
         prefs.reload();
 
-        if (!prefs.getBoolean("master_toggle", false)) {
-            return;
-        }
+//        if (!prefs.getBoolean("master_toggle", false)) {
+//            return;
+//        }
+//
+//        Common.e("pname " + lpparam.packageName);
+//        Common.e(prefs.getBoolean("Adaway_layers", false) + "   " + lpparam.packageName);
 
-        Common.e("asdfasdf");
-
-        if (prefs.getBoolean("Adaway_layers", false) && lpparam.packageName.equals("org.adaway" )) {
-            Common.e("asdasdffasdf");
-
+        if (lpparam.packageName.equals("org.adaway")) {
+//        if (prefs.getBoolean("Adaway_layers", false) && lpparam.packageName.equals("org.adaway")) {
+            Common.xLog("Adaway themed");
             findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param)
                         throws Throwable {
                     Activity a = (Activity) param.thisObject;
-                    Common.xLog("ThemeBasic enabled for " + pname);
                     a.setTheme(android.R.style.Theme_DeviceDefault);
                     a.getWindow().setStatusBarColor(0xFF9C2020);
+                    a.getWindow().setNavigationBarColor(0x88000000);
                 }
             });
         }

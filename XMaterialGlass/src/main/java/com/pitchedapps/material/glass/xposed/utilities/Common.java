@@ -6,7 +6,7 @@ import de.robv.android.xposed.XposedBridge;
 
 public class Common {
 
-    public static String PACKAGE_NAME = "com.pitchedapps.material.glass.xposed";
+    public final static String PACKAGE_NAME = "com.pitchedapps.material.glass.xposed";
 
     public static void xLog (Object o) {
         XposedBridge.log("MGX: " + o.toString());

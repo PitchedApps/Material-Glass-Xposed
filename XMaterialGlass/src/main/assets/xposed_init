@@ -1,3 +1,3 @@
-com.pitchedapps.material.glass.xposed.themes.ThemeTest
-com.pitchedapps.material.glass.xposed.themes.ThemeAdaway
-com.pitchedapps.material.glass.xposed.themes.ThemeSystemUI
+com.pitchedapps.material.glass.xposed.ThemeAdaway
+com.pitchedapps.material.glass.xposed.ThemeTest
+com.pitchedapps.material.glass.xposed.ThemeSystemUI

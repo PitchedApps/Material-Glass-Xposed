@@ -1,4 +1,4 @@
-package com.pitchedapps.material.glass.xposed.themes;
+package com.pitchedapps.material.glass.xposed;
 
 import android.widget.TextView;
 
@@ -8,7 +8,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
@@ -17,17 +17,18 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
  */
 public class ThemeSystemUI implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
-    public XSharedPreferences prefs;
+    public static XSharedPreferences prefs;
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
         prefs.makeWorldReadable();
 
+        Common.log("sysssprefs " + prefs.getAll());
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 
         if (!lpparam.packageName.equals("com.android.systemui")) {
             return;
@@ -36,6 +37,8 @@ public class ThemeSystemUI implements IXposedHookZygoteInit, IXposedHookLoadPack
         if (!prefs.getBoolean("SystemUI", false) || !prefs.getBoolean("master_toggle", false)) {
             return;
         }
+
+        Common.r("systemUI");
 
         findAndHookMethod("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader, "updateClock", new XC_MethodHook() {
             @Override
