@@ -40,12 +40,19 @@ public class ThemeTest implements IXposedHookZygoteInit, IXposedHookLoadPackage,
 
 //        XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
 
-        XResources.setSystemWideReplacement("android", "color", "primary_material_dark", Color.BLACK);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "list_header", Color.RED);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_dark", Color.RED);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_pressed_dark", Color.RED);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_shadow_dark", Color.RED);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "pager_tab_strip_bg_dark", Color.RED);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "list_header", 0xff748B96);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_dark", 0x30000000);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_light", 0x30000000);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_black", 0x30000000);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_pressed_dark", 0x30555555);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_pressed_light", 0x30555555);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_pressed_black", 0x30555555);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_shadow_dark", 0x00000000);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_shadow_light", 0x00000000);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_shadow_black", 0x00000000);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "app_background_light", 0x00000000);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "app_background_black", 0x00000000);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "pager_tab_strip_bg_dark", 0x30000000);
     }
 
     @Override
@@ -63,7 +70,7 @@ public class ThemeTest implements IXposedHookZygoteInit, IXposedHookLoadPackage,
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     Activity activity = (Activity) param.thisObject;
                     activity.setTheme(android.R.style.Theme_DeviceDefault);
-                    activity.getWindow().setStatusBarColor(0xFF9C2020);
+//                    activity.getWindow().setStatusBarColor(0xFF9C2020);
                 }
             });
         } catch (Exception e) {

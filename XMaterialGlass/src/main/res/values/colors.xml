@@ -16,7 +16,7 @@
 
     <!--custom-->
 
-    <color name="card">#30000000</color>
+    <color name="card">#30ff0000</color>
     <color name="cardd">#30555555</color>
     <color name="pblue">#ff748B96</color>
     <color name="navbar">#77000000</color>

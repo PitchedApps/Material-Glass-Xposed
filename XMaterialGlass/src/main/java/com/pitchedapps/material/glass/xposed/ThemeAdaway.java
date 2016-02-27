@@ -29,6 +29,7 @@ public class ThemeAdaway implements IXposedHookZygoteInit, IXposedHookLoadPackag
         MODULE_PATH = startupParam.modulePath;
         prefs = new XSharedPreferences("com.pitchedapps.material.glass.xposed");
         prefs.makeWorldReadable();
+        Common.log(prefs.getAll());
     }
 
     @Override

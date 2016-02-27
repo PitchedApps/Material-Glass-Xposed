@@ -40,14 +40,15 @@ public class ThemeXposed implements IXposedHookZygoteInit, IXposedHookLoadPackag
 
         Common.r(resparam.packageName.toString());
 
-        XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
-
-        XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFFF0000);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "list_header", 0xFFFF0000);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_dark", 0xFFFF0000);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_pressed_dark", 0xFFFF0000);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_shadow_dark", 0xFFFF0000);
-        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "pager_tab_strip_bg_dark", 0xFFFF0000);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "list_header", R.color.pblue);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_dark", R.color.card);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_light", R.color.card);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_black", R.color.card);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_pressed_dark", R.color.cardd);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_pressed_light", R.color.cardd);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_pressed_black", R.color.cardd);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_shadow_dark", android.R.color.transparent);
+        resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "pager_tab_strip_bg_dark", R.color.card);
     }
 
     @Override
