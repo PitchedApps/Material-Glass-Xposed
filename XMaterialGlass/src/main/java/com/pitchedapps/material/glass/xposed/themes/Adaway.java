@@ -1,4 +1,4 @@
-package com.pitchedapps.material.glass.xposed;
+package com.pitchedapps.material.glass.xposed.themes;
 
 import android.app.Activity;
 import android.content.res.XResources;
@@ -19,22 +19,22 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 /**
  * Created by 7681 on 2016-02-19.
  */
-public class ThemeAdaway implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
+public class Adaway implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
     public static String MODULE_PATH = null;
-    public XSharedPreferences prefs;
+//    public XSharedPreferences prefs;
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         MODULE_PATH = startupParam.modulePath;
-        prefs = new XSharedPreferences("com.pitchedapps.material.glass.xposed");
-        prefs.makeWorldReadable();
-        Common.log(prefs.getAll());
+//        prefs = new XSharedPreferences("com.pitchedapps.material.glass.xposed");
+//        prefs.makeWorldReadable();
+//        Common.log(prefs.getAll());
     }
 
     @Override
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
-        prefs.reload();
+//        prefs.reload();
 
 //        if (!prefs.getBoolean("master_toggle", false)) {
 //            return;
@@ -53,11 +53,10 @@ public class ThemeAdaway implements IXposedHookZygoteInit, IXposedHookLoadPackag
 
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
-        prefs.reload();
+//        prefs.reload();
 
-//        if (!prefs.getBoolean("master_toggle", false)) {
-//            return;
-//        }
+//        if (!prefs.)
+
 //
 //        Common.e("pname " + lpparam.packageName);
 //        Common.e(prefs.getBoolean("Adaway_layers", false) + "   " + lpparam.packageName);

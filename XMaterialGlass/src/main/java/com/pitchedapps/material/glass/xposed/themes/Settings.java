@@ -1,4 +1,4 @@
-package com.pitchedapps.material.glass.xposed;
+package com.pitchedapps.material.glass.xposed.themes;
 
 import android.app.Activity;
 import android.content.res.XResources;
@@ -19,7 +19,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
-public class ThemeSettings implements IXposedHookInitPackageResources, IXposedHookZygoteInit {
+public class Settings implements IXposedHookInitPackageResources, IXposedHookZygoteInit {
 
     public static String MODULE_PATH = null;
     public static XSharedPreferences prefs;

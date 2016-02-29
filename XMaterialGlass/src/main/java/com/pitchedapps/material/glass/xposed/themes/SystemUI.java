@@ -1,4 +1,4 @@
-package com.pitchedapps.material.glass.xposed;
+package com.pitchedapps.material.glass.xposed.themes;
 
 import android.widget.TextView;
 
@@ -15,7 +15,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 /**
  * Created by 7681 on 2016-02-19.
  */
-public class ThemeSystemUI implements IXposedHookZygoteInit, IXposedHookLoadPackage {
+public class SystemUI implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
     public static XSharedPreferences prefs;
 

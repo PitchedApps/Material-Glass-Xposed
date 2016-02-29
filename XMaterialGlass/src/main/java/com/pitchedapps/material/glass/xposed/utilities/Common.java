@@ -7,6 +7,7 @@ import de.robv.android.xposed.XposedBridge;
 public class Common {
 
     public final static String PACKAGE_NAME = "com.pitchedapps.material.glass.xposed";
+    public final static String MASTER_TOGGLE = "master_toggle";
 
     public static void xLog (Object o) {
         XposedBridge.log("MGX: " + o.toString());

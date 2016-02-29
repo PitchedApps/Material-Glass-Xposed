@@ -25,12 +25,11 @@ import java.util.Comparator;
 
 public class ThemePreferences extends PreferenceFragment {
 
-    public static Context context;
+    public Context context;
     static String[][] themeListMain, themeListLayers;
-    public static SharedPreferences prefs;
+    public SharedPreferences prefs;
     private static boolean launcherApp;
     private PreferenceScreen prefScreen;
-    private static final String MASTER_TOGGLE = "master_toggle";
 
     public static ThemePreferences newInstance(String[] listMain, String[] listLayers, boolean launcherApp2) {
         ThemePreferences themePrefs = new ThemePreferences();
@@ -62,14 +61,13 @@ public class ThemePreferences extends PreferenceFragment {
         context = getActivity().getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        getPreferenceManager().setSharedPreferencesMode(
-                Context.MODE_WORLD_READABLE);
+        getPreferenceManager().setSharedPreferencesMode(context.MODE_WORLD_READABLE);
         prefScreen = getPreferenceManager().createPreferenceScreen(context);
         setPreferenceScreen(prefScreen);
 
         //master toggle
         final SwitchPreference mt = new SwitchPreference(context);
-        mt.setKey(MASTER_TOGGLE);
+        mt.setKey(Common.MASTER_TOGGLE);
         mt.setDefaultValue(true);
         mt.setTitle("Master Toggle");
         mt.setSummary("Toggle this module on the fly.");
@@ -90,31 +88,31 @@ public class ThemePreferences extends PreferenceFragment {
         PreferenceCategory cMain = new PreferenceCategory(context);
         cMain.setTitle(R.string.pref_category_main);
         prefScreen.addPreference(cMain);
-        cMain.setDependency(MASTER_TOGGLE);
+        cMain.setDependency(Common.MASTER_TOGGLE);
 
         initPreferences(themeListMain, "", cMain);
 
         PreferenceCategory cLayers = new PreferenceCategory(context);
         cLayers.setTitle(R.string.pref_category_layers);
         prefScreen.addPreference(cLayers);
-        cLayers.setDependency(MASTER_TOGGLE);
+        cLayers.setDependency(Common.MASTER_TOGGLE);
 
         initPreferences(themeListLayers, "_layers", cLayers);
 
         Common.log("Preferences: " + prefs.getAll());
     }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//
-//        // Set preferences file permissions to be world readable
-//        File prefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
-//        File prefsFile = new File(prefsDir, getPreferenceManager().getSharedPreferencesName() + ".xml");
-//        if (prefsFile.exists()) {
-//            prefsFile.setReadable(true, false);
-//        }
-//    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Set preferences file permissions to be world readable
+        File prefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
+        File prefsFile = new File(prefsDir, getPreferenceManager().getSharedPreferencesName() + ".xml");
+        if (prefsFile.exists()) {
+            prefsFile.setReadable(true, false);
+        }
+    }
 
     private void initPreferences(final String[][] list, String prefix, PreferenceCategory category) {
 

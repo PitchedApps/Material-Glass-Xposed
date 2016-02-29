@@ -7,6 +7,7 @@
     <color name="bgt2">#50000000</color>
     <color name="bg">#a0000000</color>
     <color name="background">#80000000</color>
+    <color name="backgroundd">#80111111</color>
     <color name="bgx">#000</color>
     <color name="text">#fff</color>
     <color name="textt">#bbffffff</color>
@@ -23,4 +24,5 @@
 
     <color name="slide_background_1">#8000ff00</color>
     <color name="slide_background_dark_1">#80ffff00</color>
+
 </resources>

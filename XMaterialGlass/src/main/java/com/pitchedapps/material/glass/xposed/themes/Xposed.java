@@ -1,8 +1,6 @@
-package com.pitchedapps.material.glass.xposed;
+package com.pitchedapps.material.glass.xposed.themes;
 
 import android.app.Activity;
-import android.content.res.XResources;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
@@ -20,12 +18,12 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 /**
  * Created by 7681 on 2016-02-19.
  */
-public class ThemeTest implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
+public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
     public static String MODULE_PATH = null;
 
     @Override
-    public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
+    public void initZygote(StartupParam startupParam) throws Throwable {
         MODULE_PATH = startupParam.modulePath;
     }
 
