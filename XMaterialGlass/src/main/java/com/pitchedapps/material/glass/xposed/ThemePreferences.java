@@ -60,8 +60,7 @@ public class ThemePreferences extends PreferenceFragment {
 
         context = getActivity().getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        getPreferenceManager().setSharedPreferencesMode(context.MODE_WORLD_READABLE);
+        getPreferenceManager().setSharedPreferencesMode(Context.MODE_WORLD_READABLE);
         prefScreen = getPreferenceManager().createPreferenceScreen(context);
         setPreferenceScreen(prefScreen);
 

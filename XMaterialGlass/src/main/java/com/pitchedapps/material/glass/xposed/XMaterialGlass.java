@@ -20,7 +20,7 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         MODULE_PATH = startupParam.modulePath;
-        Common.xLog(MODULE_PATH);
+//        Common.xLog("PATH " + MODULE_PATH);
         prefs = new XSharedPreferences(Common.PACKAGE_NAME);
         prefs.makeWorldReadable();
     }
@@ -29,12 +29,8 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
         prefs.reload();
 
-        Common.log(prefs.getAll());
-        Common.log("path " + prefs.getFile().getAbsolutePath());
-        if(prefs == null) {
-            Common.log("prefs is null");
-        }
-
+//        Common.log(prefs.getAll());
+//        Common.log("path " + prefs.getFile().getAbsolutePath());
 
         if (!prefs.getBoolean("master_toggle", false)) {
 //            Common.xLog("returning..");
