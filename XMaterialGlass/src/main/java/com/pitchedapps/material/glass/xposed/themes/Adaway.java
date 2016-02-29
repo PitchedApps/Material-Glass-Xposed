@@ -22,47 +22,44 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 public class Adaway implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
     public static String MODULE_PATH = null;
-//    public XSharedPreferences prefs;
+    public XSharedPreferences prefs;
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         MODULE_PATH = startupParam.modulePath;
-//        prefs = new XSharedPreferences("com.pitchedapps.material.glass.xposed");
-//        prefs.makeWorldReadable();
-//        Common.log(prefs.getAll());
+        prefs = new XSharedPreferences("com.pitchedapps.material.glass.xposed");
+        prefs.makeWorldReadable();
     }
 
     @Override
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
-//        prefs.reload();
+        prefs.reload();
 
-//        if (!prefs.getBoolean("master_toggle", false)) {
-//            return;
-//        }
-//
-//        if (prefs.getBoolean("Adaway_layers", false) && resparam.packageName.equals("org.adaway")) {
-//            XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
-//            Common.e("aday prim");
-//        }
-
-        if (resparam.packageName.equals("org.adaway")) {
-            XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
+        if (!resparam.packageName.equals("org.adaway")) {
+            return;
         }
+
+        if (!(prefs.getBoolean(Common.MASTER_TOGGLE, false) && prefs.getBoolean("Adaway_layers", false))) {
+            return;
+        }
+
+        XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
 
     }
 
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
-//        prefs.reload();
+        prefs.reload();
 
-//        if (!prefs.)
+        if (!lpparam.packageName.equals("org.adaway")) {
+            return;
+        }
 
-//
-//        Common.e("pname " + lpparam.packageName);
-//        Common.e(prefs.getBoolean("Adaway_layers", false) + "   " + lpparam.packageName);
+        if (!(prefs.getBoolean(Common.MASTER_TOGGLE, false) && prefs.getBoolean("Adaway_layers", false))) {
+            return;
+        }
 
         if (lpparam.packageName.equals("org.adaway")) {
-//        if (prefs.getBoolean("Adaway_layers", false) && lpparam.packageName.equals("org.adaway")) {
             Common.xLog("Adaway themed");
             findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override

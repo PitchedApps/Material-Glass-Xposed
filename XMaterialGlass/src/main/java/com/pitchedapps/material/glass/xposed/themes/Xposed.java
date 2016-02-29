@@ -2,6 +2,7 @@ package com.pitchedapps.material.glass.xposed.themes;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
@@ -9,6 +10,7 @@ import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -21,22 +23,26 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
     public static String MODULE_PATH = null;
+    public XSharedPreferences prefs;
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         MODULE_PATH = startupParam.modulePath;
+        prefs = new XSharedPreferences(Common.PACKAGE_NAME);
+        prefs.makeWorldReadable();
     }
 
     @Override
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
+        prefs.reload();
 
         if (!resparam.packageName.equals("de.robv.android.xposed.installer")) {
             return;
         }
 
-        Common.r(resparam.packageName.toString());
-
-//        XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
+        if (!(prefs.getBoolean(Common.MASTER_TOGGLE, false) && prefs.getBoolean("Xposed", false))) {
+            return;
+        }
 
         resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "list_header", 0xff748B96);
         resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_dark", 0x30000000);
@@ -55,8 +61,14 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage, IX
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        prefs.reload();
 
         if (!lpparam.packageName.equals("de.robv.android.xposed.installer")) {
+            return;
+        }
+
+
+        if (!(prefs.getBoolean(Common.MASTER_TOGGLE, false) && prefs.getBoolean("Xposed", false))) {
             return;
         }
 

@@ -111,6 +111,7 @@ public class ThemePreferences extends PreferenceFragment {
         if (prefsFile.exists()) {
             prefsFile.setReadable(true, false);
         }
+        Common.log(prefsFile.getAbsolutePath());
     }
 
     private void initPreferences(final String[][] list, String prefix, PreferenceCategory category) {

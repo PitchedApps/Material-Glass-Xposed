@@ -25,4 +25,10 @@
     <color name="slide_background_1">#8000ff00</color>
     <color name="slide_background_dark_1">#80ffff00</color>
 
+
+    <color name="aaa">#f0f</color>
+    <color name="bbb">#f00</color>
+    <color name="ccc">#0f0</color>
+    <color name="ddd">#0ff</color>
+
 </resources>

@@ -1,23 +1,15 @@
 package com.pitchedapps.material.glass.xposed.themes;
 
-import android.app.Activity;
-import android.content.res.XResources;
-import android.os.Bundle;
+import android.content.res.ColorStateList;
 import android.widget.Button;
 
-import com.pitchedapps.material.glass.xposed.R;
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
-import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class Settings implements IXposedHookInitPackageResources, IXposedHookZygoteInit {
 
@@ -35,34 +27,26 @@ public class Settings implements IXposedHookInitPackageResources, IXposedHookZyg
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
         prefs.reload();
 
-        if (!prefs.getBoolean("master_toggle", false)) {
+        if (!resparam.packageName.equals("com.android.settings")) {
             return;
         }
 
-        if (!(prefs.getBoolean("Settings", false) && resparam.packageName.equals("com.android.settings"))) {
+        if (!(prefs.getBoolean(Common.MASTER_TOGGLE, false) && prefs.getBoolean("Settings", false))) {
             return;
         }
-
-
-        Common.r("Settings");
 
         try {
             resparam.res.hookLayout("com.android.settings", "layout", "single_button_panel", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
-                    Common.xLog("got to here");
-                    try {
-                        Button button = (Button) liparam.view.findViewById(
-                                liparam.res.getIdentifier("button", "id", "com.android.settings"));
-                        button.setText("hello");
-                        Common.xLog("button text set successfully");
-                    } catch (Exception e) {
-                        Common.xLog("asdf " + e);
-                    }
+                Button button = (Button) liparam.view.findViewById(
+                        liparam.res.getIdentifier("button", "id", "com.android.settings"));
+                button.setBackgroundTintList(ColorStateList.valueOf(0x30000000));
+                button.setShadowLayer(0.0f, 0.0f, 0.0f, 0x00000000);
                 }
             });
         } catch (Exception e) {
-            Common.xLog("fdsa " + e);
+            Common.xLog("Settings button error " + e);
         }
 
     }

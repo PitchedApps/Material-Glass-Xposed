@@ -3,6 +3,9 @@ package com.pitchedapps.material.glass.xposed.themes;
 import android.app.Activity;
 import android.content.res.XModuleResources;
 import android.os.Bundle;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pitchedapps.material.glass.xposed.R;
 import com.pitchedapps.material.glass.xposed.utilities.Common;
@@ -13,6 +16,7 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
+import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -42,44 +46,45 @@ public class XTest implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
         Common.r(resparam.packageName.toString());
 
         XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
-
-        resparam.res.setReplacement("com.instagram.android", "color", "grey_9", 0xFFFF00FF);
+/*
+        resparam.res.setReplacement("com.instagram.android", "color", "grey_9", 0x88000000);
         // 12/13/2015 action bar button select color
         resparam.res.setReplacement("com.instagram.android", "color", "grey_8", 0x30ffffff);
-        resparam.res.setReplacement("com.instagram.android", "color", "grey_7", 0xFFFF0000);
-        resparam.res.setReplacement("com.instagram.android", "color", "grey_6", 0xFFFF0000);
+        resparam.res.setReplacement("com.instagram.android", "color", "grey_7", 0x80000000); //check
+        resparam.res.setReplacement("com.instagram.android", "color", "grey_6", 0xFFFF0000); //still used for background camcorder_bottom_buttons framelayout
         resparam.res.setReplacement("com.instagram.android", "color", "grey_5", 0xaaffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "grey_4", 0xaaffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "grey_3", 0xddffffff);
-        resparam.res.setReplacement("com.instagram.android", "color", "grey_2", 0xFFFF0000);
+        resparam.res.setReplacement("com.instagram.android", "color", "grey_2", 0x80000000);
         resparam.res.setReplacement("com.instagram.android", "color", "grey_1_5", 0xaaffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "grey_1", 0xaaffffff);
-        resparam.res.setReplacement("com.instagram.android", "color", "grey_0_5", 0xFFFF0000);
-        resparam.res.setReplacement("com.instagram.android", "color", "blue_9", 0xFFFF0000);
-        resparam.res.setReplacement("com.instagram.android", "color", "blue_8", 0xFFFF0000);
-        resparam.res.setReplacement("com.instagram.android", "color", "blue_7", 0xFFFF0000);
+        resparam.res.setReplacement("com.instagram.android", "color", "grey_0_5", 0x80000000);
+        resparam.res.setReplacement("com.instagram.android", "color", "blue_9", 0xffffffff);
+        resparam.res.setReplacement("com.instagram.android", "color", "blue_8", 0xffffffff);
+        resparam.res.setReplacement("com.instagram.android", "color", "blue_7", 0xffffffff);
         //12/12/2015 action bar button select color
         resparam.res.setReplacement("com.instagram.android", "color", "blue_6", 0x33ffffff);
-        resparam.res.setReplacement("com.instagram.android", "color", "blue_5", 0xFF00FF00);
-        resparam.res.setReplacement("com.instagram.android", "color", "blue_4", 0xFF00FF00);
-        resparam.res.setReplacement("com.instagram.android", "color", "blue_3", 0xFF00FF00);
-        resparam.res.setReplacement("com.instagram.android", "color", "blue_2", 0xFF00FF00);
+        resparam.res.setReplacement("com.instagram.android", "color", "blue_5", 0xffffffff); //start
+        resparam.res.setReplacement("com.instagram.android", "color", "blue_4", 0xffffffff);
+        resparam.res.setReplacement("com.instagram.android", "color", "blue_3", 0xffff00ff);
+        resparam.res.setReplacement("com.instagram.android", "color", "blue_2", 0x80222222);
         resparam.res.setReplacement("com.instagram.android", "color", "blue_1", 0x80000000);
-        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_9", 0xFF00FF00);
-        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_8", 0xFF00FF00);
-        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_7", 0xFF00FF00);
-        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_6", 0xFF00FF00);
-        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_5", 0xFF00FFff);
-        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_4", 0xFF00FFff);
-        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_3", 0xFF00FFff);
-        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_2", 0xFF00FFff);
-        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_1", 0xFF00FFff);
-        resparam.res.setReplacement("com.instagram.android", "color", "grey_dark", 0xFF00FFff);
-        resparam.res.setReplacement("com.instagram.android", "color", "grey_medium", 0xFF00FFff);
-        resparam.res.setReplacement("com.instagram.android", "color", "grey_light", 0xFF00FFff);
+        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_9", R.color.aaa);
+        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_8", R.color.aaa);
+        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_7", R.color.aaa);
+        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_6", R.color.bbb);
+        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_5", R.color.bbb);
+        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_4", R.color.bbb);
+        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_3", R.color.ccc);
+        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_2", R.color.ccc);
+        resparam.res.setReplacement("com.instagram.android", "color", "accent_blue_1", R.color.ccc);
+        resparam.res.setReplacement("com.instagram.android", "color", "blue_medium", R.color.ccc);
+        resparam.res.setReplacement("com.instagram.android", "color", "grey_dark", 0xffffffff);
+        resparam.res.setReplacement("com.instagram.android", "color", "grey_medium", 0xffffffff);
+        resparam.res.setReplacement("com.instagram.android", "color", "grey_light", 0xffffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "white", 0xff89ABC4);
         resparam.res.setReplacement("com.instagram.android", "color", "white_transparent", 0x80ffffff);
-        resparam.res.setReplacement("com.instagram.android", "color", "black", 0xFF00FFff);
+        resparam.res.setReplacement("com.instagram.android", "color", "black", 0xffffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "black_transparent", 0x80000000);
         resparam.res.setReplacement("com.instagram.android", "color", "black_40_transparent", 0x66000000);
         resparam.res.setReplacement("com.instagram.android", "color", "dialog_background", 0x55000000);
@@ -96,15 +101,15 @@ public class XTest implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
         resparam.res.setReplacement("com.instagram.android", "color", "nux_dayone_log_in_pressed", 0x18ffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "multi_reg_token_fill", 0xfffbfbfb);
         resparam.res.setReplacement("com.instagram.android", "color", "multi_reg_token_border", 0x22ffffff);
-        resparam.res.setReplacement("com.instagram.android", "color", "multi_reg_token_text", 0xFF00FFff);
+        resparam.res.setReplacement("com.instagram.android", "color", "multi_reg_token_text", 0xffffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "null_state_color", 0x33ffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "seek_bar_inactive_color", 0xaaffffff);
-        resparam.res.setReplacement("com.instagram.android", "color", "seek_bar_active_color", 0xFFFF00FF);
+        resparam.res.setReplacement("com.instagram.android", "color", "seek_bar_active_color", 0xffffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "pill_background", 0xd9000000);
         resparam.res.setReplacement("com.instagram.android", "color", "pill_background_pressed", 0xd9111111);
         resparam.res.setReplacement("com.instagram.android", "color", "pill_background_outline", 0x26ffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "pill_background_outline_pressed", 0x4dffffff);
-        resparam.res.setReplacement("com.instagram.android", "color", "video_camcorder_dialog_text_color", 0xFFFF00FF);
+        resparam.res.setReplacement("com.instagram.android", "color", "video_camcorder_dialog_text_color", 0xffffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "camcorder_shutter_outer_ring_disabled", 0x80222222);
         resparam.res.setReplacement("com.instagram.android", "color", "filmstrip_dimmer", 0xcd000000);
         resparam.res.setReplacement("com.instagram.android", "color", "camera_shutter_outer_ring", 0xff3383ce);
@@ -114,15 +119,15 @@ public class XTest implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
         resparam.res.setReplacement("com.instagram.android", "color", "iosblue", 0xff0044e2);
         resparam.res.setReplacement("com.instagram.android", "color", "alt_list_bg_color", 0x80000000);
         resparam.res.setReplacement("com.instagram.android", "color", "photo_map_disabled_text", 0xff98d281);
-        resparam.res.setReplacement("com.instagram.android", "color", "default_slideout_icon_text_color", 0xFFFF00FF);
+        resparam.res.setReplacement("com.instagram.android", "color", "default_slideout_icon_text_color", 0xffffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "default_slideout_icon_background", 0xb3000000);
         resparam.res.setReplacement("com.instagram.android", "color", "default_tab_indicator_color", 0xFFFF00FF);
-        resparam.res.setReplacement("com.instagram.android", "color", "default_circle_indicator_fill_color", 0xFFFF00FF);
+        resparam.res.setReplacement("com.instagram.android", "color", "default_circle_indicator_fill_color", 0xFFFF00FF); //check
         resparam.res.setReplacement("com.instagram.android", "color", "default_circle_indicator_page_color", 0x00000000);
         resparam.res.setReplacement("com.instagram.android", "color", "default_circle_indicator_stroke_color", 0xffdddddd);
         resparam.res.setReplacement("com.instagram.android", "color", "people_tagging_search_background_default", 0x80000000);
         resparam.res.setReplacement("com.instagram.android", "color", "starred_hide_shoutout_color", 0x80222222);
-        resparam.res.setReplacement("com.instagram.android", "color", "results_text_color", 0xFFFF00FF);
+        resparam.res.setReplacement("com.instagram.android", "color", "results_text_color", 0xffffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "result_bar_active_color", 0xff4999da);
         resparam.res.setReplacement("com.instagram.android", "color", "disabled_text_off_white", 0x50ffffff);
         resparam.res.setReplacement("com.instagram.android", "color", "white_30_alpha", 0x4dffffff);
@@ -138,6 +143,7 @@ public class XTest implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
         resparam.res.setReplacement("com.instagram.android", "color", "bugreporter_takescreenshot_cancel_background", 0x99ffe6cc);
         resparam.res.setReplacement("com.instagram.android", "color", "bugreporter_takescreenshot_capture_background_border", 0x995bc25b);
         resparam.res.setReplacement("com.instagram.android", "color", "bugreporter_takescreenshot_cancel_background_border", 0x99ffa736);
+        */
 
 
         resparam.res.setReplacement("com.instagram.android", "drawable", "action_bar_background", modRes.fwd(R.drawable.instagram_action_bar_background));
@@ -167,7 +173,64 @@ public class XTest implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
         resparam.res.setReplacement("com.instagram.android", "drawable", "spinner_dropdown", modRes.fwd(R.drawable.instagram_spinner_dropdown));
         resparam.res.setReplacement("com.instagram.android", "drawable", "spinner_dropdown_text", modRes.fwd(R.drawable.instagram_spinner_dropdown_text));
 
+        resparam.res.hookLayout("com.instagram.android", "layout", "activity_people_tag", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+                TextView tv = (TextView) liparam.view.getRootView();
+                tv.setTextColor(0xffffffff);
+            }
+        });
 
+        resparam.res.hookLayout("com.instagram.android", "layout", "direct_row_inbox_thread", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+                TextView tv = (TextView) liparam.view.getRootView();
+                tv.setTextColor(0xffffffff);
+            }
+        });
+
+        resparam.res.hookLayout("com.instagram.android", "layout", "explore_people_suggestions_header", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+                TextView tv = (TextView) liparam.view.getRootView();
+                tv.setTextColor(0xffffffff);
+            }
+        });
+
+        resparam.res.hookLayout("com.instagram.android", "layout", "trending_carousel_item_view", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+                TextView x = (TextView) liparam.view.getRootView();
+                x.setTextColor(0xffffffff);
+            }
+        });
+
+        resparam.res.hookLayout("com.instagram.android", "layout", "row_friend_request_header", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+                LinearLayout x = (LinearLayout) liparam.view.getRootView();
+                x.setBackgroundColor(0x80000000);
+                Common.xLog("row_friend_request_header");
+            }
+        });
+
+        resparam.res.hookLayout("com.instagram.android", "layout", "fragment_cluster_grid", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+                LinearLayout x = (LinearLayout) liparam.view.getRootView();
+                x.setBackgroundColor(0x80000000);
+                Common.xLog("fragment_cluster_grid");
+            }
+        });
+
+        resparam.res.hookLayout("com.instagram.android", "layout", "inline_gallery", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+                FrameLayout x = (FrameLayout) liparam.view.getRootView();
+                x.setBackgroundColor(0x80000000);
+                Common.xLog("inline_gallery");
+            }
+        });
 
     }
 
@@ -182,8 +245,9 @@ public class XTest implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
                 protected void beforeHookedMethod(MethodHookParam param)
                         throws Throwable {
                     Activity a = (Activity) param.thisObject;
-                    a.setTheme(android.R.style.Theme_DeviceDefault);
-                    a.getWindow().setNavigationBarColor(0x88ff0000);
+                    a.setTheme(android.R.style.Theme_DeviceDefault_Settings);
+                    a.getWindow().setNavigationBarColor(0x88000000);
+
                 }
             });
         }
