@@ -21,8 +21,8 @@ public class Common {
         Log.e("MGX", o.toString());
     }
 
-    public static void r (String s) {
-        Log.d("MGX", s + " is running.");
+    public static void t (String s) {
+        xLog("~~~~~ " + s + " is themed. ~~~~~");
     }
 
     public static void xLogError (Exception e) {

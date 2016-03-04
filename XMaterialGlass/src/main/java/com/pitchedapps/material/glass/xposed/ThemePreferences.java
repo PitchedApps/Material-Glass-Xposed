@@ -15,7 +15,6 @@ import android.preference.SwitchPreference;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -67,7 +66,6 @@ public class ThemePreferences extends PreferenceFragment {
         //master toggle
         final SwitchPreference mt = new SwitchPreference(context);
         mt.setKey(Common.MASTER_TOGGLE);
-        mt.setDefaultValue(true);
         mt.setTitle("Master Toggle");
         mt.setSummary("Toggle this module on the fly.");
         mt.setOnPreferenceClickListener(new SwitchPreference.OnPreferenceClickListener() {
@@ -101,18 +99,17 @@ public class ThemePreferences extends PreferenceFragment {
         Common.log("Preferences: " + prefs.getAll());
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        // Set preferences file permissions to be world readable
-        File prefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
-        File prefsFile = new File(prefsDir, getPreferenceManager().getSharedPreferencesName() + ".xml");
-        if (prefsFile.exists()) {
-            prefsFile.setReadable(true, false);
-        }
-        Common.log(prefsFile.getAbsolutePath());
-    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//
+//        // Set preferences file permissions to be world readable
+//        File prefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
+//        File prefsFile = new File(prefsDir, getPreferenceManager().getSharedPreferencesName() + ".xml");
+//        if (prefsFile.exists()) {
+//            prefsFile.setReadable(true, false);
+//        }
+//    }
 
     private void initPreferences(final String[][] list, String prefix, PreferenceCategory category) {
 

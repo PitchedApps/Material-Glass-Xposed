@@ -44,6 +44,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage, IX
             return;
         }
 
+        Common.t("Xposed");
+
         resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "list_header", 0xff748B96);
         resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_dark", 0x30000000);
         resparam.res.setReplacement("de.robv.android.xposed.installer", "color", "card_background_light", 0x30000000);

@@ -27,7 +27,7 @@ public class Adaway implements IXposedHookZygoteInit, IXposedHookLoadPackage, IX
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         MODULE_PATH = startupParam.modulePath;
-        prefs = new XSharedPreferences("com.pitchedapps.material.glass.xposed");
+        prefs = new XSharedPreferences(Common.PACKAGE_NAME);
         prefs.makeWorldReadable();
     }
 
@@ -59,18 +59,17 @@ public class Adaway implements IXposedHookZygoteInit, IXposedHookLoadPackage, IX
             return;
         }
 
-        if (lpparam.packageName.equals("org.adaway")) {
-            Common.xLog("Adaway themed");
-            findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param)
-                        throws Throwable {
-                    Activity a = (Activity) param.thisObject;
-                    a.setTheme(android.R.style.Theme_DeviceDefault);
-                    a.getWindow().setStatusBarColor(0xFF9C2020);
-                    a.getWindow().setNavigationBarColor(0x88000000);
-                }
-            });
-        }
+        Common.t("Adaway");
+
+        findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param)
+                    throws Throwable {
+                Activity a = (Activity) param.thisObject;
+                a.setTheme(android.R.style.Theme_DeviceDefault);
+                a.getWindow().setStatusBarColor(0xFF9C2020);
+                a.getWindow().setNavigationBarColor(0x88000000);
+            }
+        });
     }
 }

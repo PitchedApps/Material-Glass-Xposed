@@ -35,6 +35,8 @@ public class Settings implements IXposedHookInitPackageResources, IXposedHookZyg
             return;
         }
 
+        Common.t("Settings");
+
         try {
             resparam.res.hookLayout("com.android.settings", "layout", "single_button_panel", new XC_LayoutInflated() {
                 @Override
