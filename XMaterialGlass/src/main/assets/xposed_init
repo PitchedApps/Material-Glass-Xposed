@@ -1,6 +1,3 @@
-com.pitchedapps.material.glass.xposed.themes.XTest
-com.pitchedapps.material.glass.xposed.themes.Xposed
-com.pitchedapps.material.glass.xposed.themes.Adaway
-com.pitchedapps.material.glass.xposed.themes.Settings
-com.pitchedapps.material.glass.xposed.themes.Instagram
+com.pitchedapps.material.glass.xposed.XTest
+com.pitchedapps.material.glass.xposed.XMaterialGlass
 

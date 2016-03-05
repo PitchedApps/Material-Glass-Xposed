@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -15,6 +16,7 @@ import android.preference.SwitchPreference;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -57,6 +59,8 @@ public class ThemePreferences extends PreferenceFragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        fixFolderPermissionsAsync();
+
         context = getActivity().getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         getPreferenceManager().setSharedPreferencesMode(Context.MODE_WORLD_READABLE);
@@ -67,6 +71,7 @@ public class ThemePreferences extends PreferenceFragment {
         final SwitchPreference mt = new SwitchPreference(context);
         mt.setKey(Common.MASTER_TOGGLE);
         mt.setTitle("Master Toggle");
+        mt.setDefaultValue(false);
         mt.setSummary("Toggle this module on the fly.");
         mt.setOnPreferenceClickListener(new SwitchPreference.OnPreferenceClickListener() {
             @Override //remove icon if it hasn't been already
@@ -98,18 +103,6 @@ public class ThemePreferences extends PreferenceFragment {
 
         Common.log("Preferences: " + prefs.getAll());
     }
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//
-//        // Set preferences file permissions to be world readable
-//        File prefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
-//        File prefsFile = new File(prefsDir, getPreferenceManager().getSharedPreferencesName() + ".xml");
-//        if (prefsFile.exists()) {
-//            prefsFile.setReadable(true, false);
-//        }
-//    }
 
     private void initPreferences(final String[][] list, String prefix, PreferenceCategory category) {
 
@@ -150,6 +143,22 @@ public class ThemePreferences extends PreferenceFragment {
             category.addPreference(pr);
         }
 
+    }
+
+    public void fixFolderPermissionsAsync() {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                context.getFilesDir().setExecutable(true, false);
+                context.getFilesDir().setReadable(true, false);
+                File sharedPrefsFolder = new File(context.getFilesDir().getAbsolutePath()
+                        + "/../shared_prefs");
+                if (sharedPrefsFolder.exists()) {
+                    sharedPrefsFolder.setExecutable(true, false);
+                    sharedPrefsFolder.setReadable(true, false);
+                }
+            }
+        });
     }
 
 }
