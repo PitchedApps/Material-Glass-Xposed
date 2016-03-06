@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pitchedapps.material.glass.xposed.adapters.ChangelogAdapter;
+import com.pitchedapps.material.glass.xposed.utilities.Common;
 import com.pitchedapps.material.glass.xposed.utilities.Utils;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,9 +45,16 @@ public class MainActivity extends AppCompatActivity {
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers, isLauncherIconVisible(componentName));
 
-        getFragmentManager().beginTransaction().replace(R.id.container, themePrefs).commit();
+        if (isModuleActivated()) {
+            ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers, isLauncherIconVisible(componentName));
+            getFragmentManager().beginTransaction().replace(R.id.container, themePrefs).commit();
+            if (!arePrefsWorking()) {
+                Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), "Prefs are not working; everything is enabled by default.", 6000);
+            }
+        } else {
+            Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), "Module is not enabled.", 3);
+        }
     }
 
     @Override
@@ -100,5 +111,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //The following boolean implementations were taken from unbounce, another xposed module for battery saving
 
+    public boolean isModuleActivated() {
+        //The module will change this to true.
+        return false;
+    }
+
+    public boolean arePrefsWorking() {
+        //The module will change this to false if it isn't.
+        return true;
+    }
+
+    public boolean isXposedRunning() {
+//        return true;
+        return new File("/data/data/de.robv.android.xposed.installer/bin/XposedBridge.jar").exists();
+    }
+
+    private boolean isXposedInstalled() {
+
+        PackageManager pm = getPackageManager();
+
+        try {
+            pm.getPackageInfo("de.robv.android.xposed.installer", PackageManager.GET_ACTIVITIES);
+            return true;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    private boolean isInstalledFromPlay() {
+        String installer = getPackageManager().getInstallerPackageName(Common.PACKAGE_NAME);
+
+        if (installer == null) {
+            return false;
+        }
+        else {
+            return installer.equals("com.android.vending");
+        }
+    }
 }
