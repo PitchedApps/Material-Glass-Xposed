@@ -2,6 +2,7 @@
 <resources>
 
     <string-array name="fullchangelog">
+        <item>@array/v2</item>
         <item>@array/v1</item>
         <item>@array/v0</item>
     </string-array>
@@ -15,6 +16,14 @@
         <item></item>
     </string-array>
 
+    <string-array name="v2">
+        <item>v1.1</item>
+        <item>Reworked the module so it works whether the preferences work or not \nPlease check to see if this works.</item>
+        <item>Instagram: slight changes</item>
+        <item>Settings: moved to the layers section as it is only for layers</item>
+        <item>Module: added icon</item>
+    </string-array>
+
     <string-array name="v1">
         <item>v1.0</item>
         <item>Fixed up preferences</item>
@@ -23,7 +32,6 @@
         <item>Themed instagram</item>
         <item>Themed adaway</item>
         <item>Module now checks if it\'s enabled</item>
-        <item></item>
     </string-array>
 
     <string-array name="v0">

@@ -67,6 +67,11 @@ public class ThemePreferences extends PreferenceFragment {
         prefScreen = getPreferenceManager().createPreferenceScreen(context);
         setPreferenceScreen(prefScreen);
 
+        //add preference that xposed will check to see if the preferences are working
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putBoolean("arePrefsWorking", true);
+        prefsEditor.commit();
+
         //master toggle
         final SwitchPreference mt = new SwitchPreference(context);
         mt.setKey(Common.MASTER_TOGGLE);

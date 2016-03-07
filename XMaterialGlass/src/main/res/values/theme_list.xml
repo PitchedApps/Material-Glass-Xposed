@@ -3,16 +3,16 @@
     <!--'/' = new bullet point-->
     <array name="theme_list_main">
         <item>Xposed</item>
-        <item>Make sure you pick the dark theme mode! / Materialize Xposed</item>
-        <item>Settings</item>
-        <item>Fix the white button issue</item>
+        <item>Makes sure you pick the dark theme mode! / Materialize Xposed</item>
         <item>Instagram</item>
-        <item>Make instagram transparent / Workaround to avoid IGSwitch crash</item>
+        <item>Makes instagram transparent / Workaround to avoid IGSwitch crash</item>
     </array>
 
     <!--results in a "_layers" suffix-->
     <array name="theme_list_layers">
         <item>Adaway</item>
-        <item>Make adaway transparent</item>
+        <item>Makes adaway transparent</item>
+        <item>Settings</item>
+        <item>Fixes the white button issue</item>
     </array>
 </resources>

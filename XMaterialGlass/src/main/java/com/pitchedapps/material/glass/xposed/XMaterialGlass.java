@@ -27,6 +27,7 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
 
     public static String MODULE_PATH = null;
     public XSharedPreferences prefs;
+    public boolean prefsEnabled = false;
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
@@ -39,26 +40,34 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
         prefs.reload();
 
-        if (!(prefs.getBoolean(Common.MASTER_TOGGLE, false))) {
-            return;
+        if (!resparam.packageName.equals(Common.PACKAGE_NAME)) {
+            prefsEnabled = prefs.getBoolean("arePrefsWorking", false);
+        } else {
+            return; //opened the module, there's nothing to edit
         }
 
-        if (resparam.packageName.equals("de.robv.android.xposed.installer") && prefs.getBoolean("Xposed", false)) {
+        if (prefsEnabled) {
+            if (!prefs.getBoolean(Common.MASTER_TOGGLE, false)) {
+                return;
+            }
+        }
+
+        if (resparam.packageName.equals("de.robv.android.xposed.installer") && (!prefsEnabled || prefs.getBoolean("Xposed", false))) {
             Common.t("Xposed");
             Xposed.handleInitPackageResources(resparam);
         }
 
-        if (resparam.packageName.equals("com.android.settings") && prefs.getBoolean("Settings", false)) {
+        if (resparam.packageName.equals("com.android.settings") && (!prefsEnabled || prefs.getBoolean("Settings_layers", false))) {
             Common.t("Settings");
             Settings.handleInitPackageResources(resparam);
         }
 
-        if (resparam.packageName.equals("com.instagram.android") && prefs.getBoolean("Instagram", false)) {
+        if (resparam.packageName.equals("com.instagram.android") && (!prefsEnabled || prefs.getBoolean("Instagram", false))) {
             Common.t("Instagram");
             Instagram.handleInitPackageResources(resparam, MODULE_PATH);
         }
 
-        if (resparam.packageName.equals("org.adaway") && prefs.getBoolean("Adaway_layers", false)) {
+        if (resparam.packageName.equals("org.adaway") && (!prefsEnabled || prefs.getBoolean("Adaway_layers", false))) {
             Common.t("Adaway");
             XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
         }
@@ -69,7 +78,7 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         prefs.reload();
 
-        if (lpparam.packageName.equals("com.pitchedapps.material.glass.xposed")) { //give info to module
+        if (lpparam.packageName.equals(Common.PACKAGE_NAME)) { //give info to module
             findAndHookMethod("com.pitchedapps.material.glass.xposed.MainActivity", lpparam.classLoader, "isModuleActivated", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -77,24 +86,39 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
                 }
             });
 
-            Common.xLog("XSharedPreferences: " + prefs.getAll());
-
+            if (!prefsEnabled) {
+                findAndHookMethod("com.pitchedapps.material.glass.xposed.MainActivity", lpparam.classLoader, "arePrefsWorking", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        param.setResult(false);
+                    }
+                });
+                Common.e("Prefs are not working");
+            }
+        } else {
+            prefsEnabled = prefs.getBoolean("arePrefsWorking", false); //Do this when the module is not opened
         }
 
-        if (!(prefs.getBoolean(Common.MASTER_TOGGLE, false))) {
-            return;
+        if (lpparam.packageName.equals("de.robv.android.xposed.installer")) {
+            Common.xLog("XSharedPreferences when in Xposed: " + prefs.getAll());
         }
 
-        if (lpparam.packageName.equals("de.robv.android.xposed.installer") && prefs.getBoolean("Xposed", false)) {
+        if (prefsEnabled) {
+            if (!prefs.getBoolean(Common.MASTER_TOGGLE, false)) {
+                return;
+            }
+        }
+
+        if (lpparam.packageName.equals("de.robv.android.xposed.installer") && (!prefsEnabled || prefs.getBoolean("Xposed", false))) {
             final Class<?> XposedInstallerBase = findClass("de.robv.android.xposed.installer.XposedBaseActivity", lpparam.classLoader);
             themeBase(XposedInstallerBase);
         }
 
-        if (lpparam.packageName.equals("com.instagram.android") && prefs.getBoolean("Instagram", false)) {
+        if (lpparam.packageName.equals("com.instagram.android") && (!prefsEnabled || prefs.getBoolean("Instagram", false))) {
             themeTintBase();
         }
 
-        if (lpparam.packageName.equals("org.adaway") && prefs.getBoolean("Adaway_layers", false)) {
+        if (lpparam.packageName.equals("org.adaway") && (!prefsEnabled || prefs.getBoolean("Adaway_layers", false))) {
             findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param)
