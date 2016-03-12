@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         if (isModuleActivated()) {
             ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers, isLauncherIconVisible(componentName));
             getFragmentManager().beginTransaction().replace(R.id.container, themePrefs).commit();
-            if (!arePrefsWorking()) {
-                Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), "Prefs are not working; everything is enabled by default.", 10000);
-            }
+//            if (!arePrefsWorking()) {
+//                Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), "Prefs are not working; everything is enabled by default.", 10000);
+//            }
         } else {
             Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), "Module is not enabled.", 3);
         }

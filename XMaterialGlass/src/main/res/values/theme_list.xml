@@ -6,6 +6,8 @@
         <item>Makes sure you pick the dark theme mode! / Materialize Xposed</item>
         <item>Instagram</item>
         <item>Makes instagram transparent / Workaround to avoid IGSwitch crash</item>
+        <item>Whatsapp</item>
+        <item>Various fixes for text color</item>
     </array>
 
     <!--results in a "_layers" suffix-->

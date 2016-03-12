@@ -72,37 +72,20 @@ public class ThemePreferences extends PreferenceFragment {
         prefsEditor.putBoolean("arePrefsWorking", true);
         prefsEditor.commit();
 
-        //master toggle
-        final SwitchPreference mt = new SwitchPreference(context);
-        mt.setKey(Common.MASTER_TOGGLE);
-        mt.setTitle("Master Toggle");
-        mt.setDefaultValue(false);
-        mt.setSummary("Toggle this module on the fly.");
-        mt.setOnPreferenceClickListener(new SwitchPreference.OnPreferenceClickListener() {
-            @Override //remove icon if it hasn't been already
-            public boolean onPreferenceClick(Preference preference) {
-                if (launcherApp) {
-                    if (mt.isChecked()) {
-                        ((MainActivity) getActivity()).removeLauncherIcon();
-                        launcherApp = false;
-                    }
-                }
-                return false;
-            }
-        });
-        prefScreen.addPreference(mt);
+        if (launcherApp) {
+            ((MainActivity) getActivity()).removeLauncherIcon();
+            launcherApp = false;
+        }
 
         PreferenceCategory cMain = new PreferenceCategory(context);
         cMain.setTitle(R.string.pref_category_main);
         prefScreen.addPreference(cMain);
-        cMain.setDependency(Common.MASTER_TOGGLE);
 
         initPreferences(themeListMain, "", cMain);
 
         PreferenceCategory cLayers = new PreferenceCategory(context);
         cLayers.setTitle(R.string.pref_category_layers);
         prefScreen.addPreference(cLayers);
-        cLayers.setDependency(Common.MASTER_TOGGLE);
 
         initPreferences(themeListLayers, "_layers", cLayers);
 
