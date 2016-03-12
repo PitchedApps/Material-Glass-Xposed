@@ -63,14 +63,13 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
             Instagram.handleInitPackageResources(resparam, MODULE_PATH);
         }
 
-        if (resparam.packageName.equals("org.adaway") && (!prefsEnabled || prefs.getBoolean("Adaway_layers", false))) {
-            Common.t("Adaway");
-            XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
-        }
+//        if (resparam.packageName.equals("org.adaway") && (!prefsEnabled || prefs.getBoolean("Adaway_layers", false))) {
+//            Common.t("Adaway");
+//            XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
+//        }
 
         if (resparam.packageName.equals("com.whatsapp") && (!prefsEnabled || prefs.getBoolean("Whatsapp", false))) {
             Common.t("Whatsapp");
-            XResources.setSystemWideReplacement("android", "color", "black", 0xFFFF0000);
             Whatsapp.handleInitPackageResources(resparam);
         }
 
@@ -115,6 +114,7 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
         }
 
         if (lpparam.packageName.equals("org.adaway") && (!prefsEnabled || prefs.getBoolean("Adaway_layers", false))) {
+            Common.t("Adaway");
             findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param)
