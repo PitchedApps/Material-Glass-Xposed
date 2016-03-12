@@ -4,6 +4,7 @@ import android.content.res.XModuleResources;
 
 import com.pitchedapps.material.glass.xposed.R;
 import com.pitchedapps.material.glass.xposed.utilities.Common;
+import com.pitchedapps.material.glass.xposed.utilities.PackageName;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class Instagram {
     public static void handleInitPackageResources(InitPackageResourcesParam resparam, String MODULE_PATH) {
 
         //Initialize values
-        String PACKAGE_NAME = "com.instagram.android";
+        final String PACKAGE_NAME = PackageName.INSTAGRAM;
         XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
         Map<String, Integer> color_map = new HashMap<>();
         Map<String, Integer> drawable_map = new HashMap<>();

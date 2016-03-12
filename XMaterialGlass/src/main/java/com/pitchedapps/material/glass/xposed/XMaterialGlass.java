@@ -9,6 +9,7 @@ import com.pitchedapps.material.glass.xposed.themes.Settings;
 import com.pitchedapps.material.glass.xposed.themes.Whatsapp;
 import com.pitchedapps.material.glass.xposed.themes.Xposed;
 import com.pitchedapps.material.glass.xposed.utilities.Common;
+import com.pitchedapps.material.glass.xposed.utilities.PackageName;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -53,12 +54,12 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
             Xposed.handleInitPackageResources(resparam);
         }
 
-        if (resparam.packageName.equals("com.android.settings") && (!prefsEnabled || prefs.getBoolean("Settings_layers", false))) {
+        if (resparam.packageName.equals(PackageName.SETTINGS) && (!prefsEnabled || prefs.getBoolean("Settings_layers", false))) {
             Common.t("Settings");
             Settings.handleInitPackageResources(resparam);
         }
 
-        if (resparam.packageName.equals("com.instagram.android") && (!prefsEnabled || prefs.getBoolean("Instagram", false))) {
+        if (resparam.packageName.equals(PackageName.INSTAGRAM) && (!prefsEnabled || prefs.getBoolean("Instagram", false))) {
             Common.t("Instagram");
             Instagram.handleInitPackageResources(resparam, MODULE_PATH);
         }
@@ -68,7 +69,7 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
 //            XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
 //        }
 
-        if (resparam.packageName.equals("com.whatsapp") && (!prefsEnabled || prefs.getBoolean("Whatsapp", false))) {
+        if (resparam.packageName.equals(PackageName.WHATSAPP) && (!prefsEnabled || prefs.getBoolean("Whatsapp", false))) {
             Common.t("Whatsapp");
             Whatsapp.handleInitPackageResources(resparam);
         }
@@ -101,7 +102,7 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
             prefsEnabled = prefs.getBoolean("arePrefsWorking", false); //Do this when the module is not opened
         }
 
-        if (lpparam.packageName.equals("de.robv.android.xposed.installer")) {
+        if (lpparam.packageName.equals(PackageName.XPOSED)) {
             Common.xLog("XSharedPreferences when in Xposed: " + prefs.getAll());
             if (!prefsEnabled || prefs.getBoolean("Xposed", false)) {
                 final Class<?> XposedInstallerBase = findClass("de.robv.android.xposed.installer.XposedBaseActivity", lpparam.classLoader);
@@ -109,11 +110,11 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
             }
         }
 
-        if (lpparam.packageName.equals("com.instagram.android") && (!prefsEnabled || prefs.getBoolean("Instagram", false))) {
+        if (lpparam.packageName.equals(PackageName.INSTAGRAM) && (!prefsEnabled || prefs.getBoolean("Instagram", false))) {
             themeTintBase();
         }
 
-        if (lpparam.packageName.equals("org.adaway") && (!prefsEnabled || prefs.getBoolean("Adaway_layers", false))) {
+        if (lpparam.packageName.equals(PackageName.ADAWAY) && (!prefsEnabled || prefs.getBoolean("Adaway_layers", false))) {
             Common.t("Adaway");
             findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override

@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
+import com.pitchedapps.material.glass.xposed.utilities.PackageName;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,21 +26,21 @@ public class Whatsapp {
     public static void handleInitPackageResources(InitPackageResourcesParam resparam) {
 
         //Initialize values
-        final String PACKAGE_NAME = "com.whatsapp";
+        final String PACKAGE_NAME = PackageName.WHATSAPP;
 
-        newLayout("account_info", 0, "choose_friend_button");
-        newLayout("change_number", 2, "registration_phone");
-            addItem("change_number", 2, "registration_new_phone");
-        newLayout("delete_account", 2, "registration_phone");
-        newLayout("describe_problem", 2, "describe_problem_description_et");
-        newLayout("emoji_edittext_dialog", 2, "edit_text");
-        newLayout("profile_photo_reminder", 2, "registration_name");
-        newLayout("registername", 2, "registration_name");
-        newLayout("registerphone", 2, "registration_phone");
-        newLayout("change_number", 1, "change_number_old_number");
-            addItem("change_number", 1, "change_number_new_number");
-        newLayout("country_picker_row", 1, "country_name");
-            addItem("country_picker_row", 1, "country_en_name");
+        newButton("account_info", "choose_friend_button");
+        newEditText("change_number", "registration_phone");
+            addEditText("change_number", "registration_new_phone");
+        newEditText("delete_account", "registration_phone");
+        newEditText("describe_problem", "describe_problem_description_et");
+        newEditText("emoji_edittext_dialog", "edit_text");
+        newEditText("profile_photo_reminder", "registration_name");
+        newEditText("registername", "registration_name");
+        newEditText("registerphone", "registration_phone");
+        newTextView("change_number", "change_number_old_number");
+            addTextView("change_number", "change_number_new_number");
+        newTextView("country_picker_row", "country_name");
+        addTextView("country_picker_row", "country_en_name");
         
         
 
@@ -79,14 +80,32 @@ public class Whatsapp {
         }
 
     }
-
-    private static void newLayout(String s, Integer i, String id) {
+    
+    private static void newButton(String s, String id) {
         layout_map.put(s, new HashMap<Integer, String>());
-        addItem(s, i, id);
+        layout_map.get(s).put(0, id);
     }
 
-    private static void addItem(String s, Integer i, String id) {
-        layout_map.get(s).put(i, id);
+    private static void newTextView(String s, String id) {
+        layout_map.put(s, new HashMap<Integer, String>());
+        layout_map.get(s).put(1, id);
+    }
+
+    private static void newEditText(String s, String id) {
+        layout_map.put(s, new HashMap<Integer, String>());
+        layout_map.get(s).put(2, id);
+    }
+
+    private static void addButton(String s, String id) {
+        layout_map.get(s).put(0, id);
+    }
+
+    private static void addTextView(String s, String id) {
+        layout_map.get(s).put(1, id);
+    }
+
+    private static void addEditText(String s, String id) {
+        layout_map.get(s).put(2, id);
     }
 
 }
