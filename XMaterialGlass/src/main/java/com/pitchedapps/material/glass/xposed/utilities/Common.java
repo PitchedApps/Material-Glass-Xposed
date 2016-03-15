@@ -9,15 +9,27 @@ public class Common {
     public final static String PACKAGE_NAME = "com.pitchedapps.material.glass.xposed";
 
     public static void xLog (Object o) {
-        XposedBridge.log("MGX: " + o.toString());
+        try {
+            XposedBridge.log("MGX: " + o.toString());
+        } catch (Exception e) {
+            XposedBridge.log("MGX: " + "ERROR LOGGING");
+        }
     }
 
     public static void log (Object o) {
-        Log.d("MGX", o.toString());
+        try {
+            Log.d("MGX", o.toString());
+        } catch (Exception e) {
+            Log.e("MGX", "ERROR LOGGING");
+        }
     }
 
     public static void e (Object o) {
-        Log.e("MGX", o.toString());
+        try {
+            Log.e("MGX", o.toString());
+        } catch (Exception e) {
+            Log.e("MGX", "ERROR LOGGING");
+        }
     }
 
     public static void t (String s) {

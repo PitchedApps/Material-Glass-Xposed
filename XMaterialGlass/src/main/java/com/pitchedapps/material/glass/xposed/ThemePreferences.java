@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -12,7 +11,6 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
 
@@ -59,8 +57,6 @@ public class ThemePreferences extends PreferenceFragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fixFolderPermissionsAsync();
-
         context = getActivity().getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         getPreferenceManager().setSharedPreferencesMode(Context.MODE_WORLD_READABLE);
@@ -68,9 +64,9 @@ public class ThemePreferences extends PreferenceFragment {
         setPreferenceScreen(prefScreen);
 
         //add preference that xposed will check to see if the preferences are working
-        SharedPreferences.Editor prefsEditor = prefs.edit();
-        prefsEditor.putBoolean("arePrefsWorking", true);
-        prefsEditor.commit();
+//        SharedPreferences.Editor prefsEditor = prefs.edit();
+//        prefsEditor.putBoolean("arePrefsWorking", true);
+//        prefsEditor.commit();
 
         if (launcherApp) {
             ((MainActivity) getActivity()).removeLauncherIcon();
@@ -133,20 +129,16 @@ public class ThemePreferences extends PreferenceFragment {
 
     }
 
-    public void fixFolderPermissionsAsync() {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                context.getFilesDir().setExecutable(true, false);
-                context.getFilesDir().setReadable(true, false);
-                File sharedPrefsFolder = new File(context.getFilesDir().getAbsolutePath()
-                        + "/../shared_prefs");
-                if (sharedPrefsFolder.exists()) {
-                    sharedPrefsFolder.setExecutable(true, false);
-                    sharedPrefsFolder.setReadable(true, false);
-                }
-            }
-        });
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Set preferences file permissions to be world readable
+        File sharedPrefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
+        File sharedPrefsFile = new File(sharedPrefsDir, Common.PACKAGE_NAME + "_preferences.xml");
+        if (sharedPrefsFile.exists()) {
+            sharedPrefsFile.setReadable(true, false);
+        }
     }
 
 }

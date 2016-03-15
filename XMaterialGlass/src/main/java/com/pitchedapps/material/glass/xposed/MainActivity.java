@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
+
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -48,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         if (isModuleActivated()) {
             ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers, isLauncherIconVisible(componentName));
             getFragmentManager().beginTransaction().replace(R.id.container, themePrefs).commit();
-//            if (!arePrefsWorking()) {
-//                Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), "Prefs are not working; everything is enabled by default.", 10000);
-//            }
         } else {
             Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), "Module is not enabled.", 3);
         }
@@ -117,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public boolean arePrefsWorking() {
-        //The module will change this to false if it isn't.
-        return true;
-    }
+//    public boolean arePrefsWorking() {
+//        //The module will change this to false if it isn't.
+//        return true;
+//    }
 
     public boolean isXposedRunning() {
 //        return true;
