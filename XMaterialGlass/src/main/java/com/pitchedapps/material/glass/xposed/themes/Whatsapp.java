@@ -6,7 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.pitchedapps.material.glass.xposed.utilities.Common;
-import com.pitchedapps.material.glass.xposed.utilities.PackageName;
+import com.pitchedapps.material.glass.xposed.utilities.Packages;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,7 @@ public class Whatsapp {
     public static void handleInitPackageResources(InitPackageResourcesParam resparam) {
 
         //Initialize values
-        final String PACKAGE_NAME = PackageName.WHATSAPP;
+        final String PACKAGE_NAME = "test";
 
         newButton("account_info", "choose_friend_button");
         newEditText("change_number", "registration_phone");

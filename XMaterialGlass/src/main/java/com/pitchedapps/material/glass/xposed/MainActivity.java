@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String[] themeListMain = this.getResources().getStringArray(R.array.theme_list_main);
-        String[] themeListLayers = this.getResources().getStringArray(R.array.theme_list_layers);
-
         componentName = new ComponentName(this, HomeActivity.class);
 
 //        if(isLauncherIconVisible(componentName)) {
@@ -49,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (isModuleActivated()) {
-            ThemePreferences themePrefs = ThemePreferences.newInstance(themeListMain, themeListLayers, isLauncherIconVisible(componentName));
+            if (isLauncherIconVisible(componentName)) removeLauncherIcon();
+            ThemePreferences themePrefs = new ThemePreferences();
             getFragmentManager().beginTransaction().replace(R.id.container, themePrefs).commit();
         } else {
             Utils.showSimpleSnackbar(this, findViewById(R.id.main_activity), "Module is not enabled.", 3);
@@ -143,11 +141,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean isInstalledFromPlay() {
         String installer = getPackageManager().getInstallerPackageName(Common.PACKAGE_NAME);
 
-        if (installer == null) {
-            return false;
-        }
-        else {
-            return installer.equals("com.android.vending");
-        }
+        return installer != null && installer.equals("com.android.vending");
     }
 }

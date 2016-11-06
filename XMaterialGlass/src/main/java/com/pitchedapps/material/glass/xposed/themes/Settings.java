@@ -3,32 +3,28 @@ package com.pitchedapps.material.glass.xposed.themes;
 import android.content.res.ColorStateList;
 import android.widget.Button;
 
-import com.pitchedapps.material.glass.xposed.utilities.Common;
-import com.pitchedapps.material.glass.xposed.utilities.PackageName;
-
-import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 
-public class Settings {
+public class Settings extends ThemeBase {
 
-    public static void handleInitPackageResources(InitPackageResourcesParam resparam) {
+    private static Settings sTheme;
 
-        final String PACKAGE_NAME = PackageName.SETTINGS;
+    public static ThemeBase get() {
+        if (sTheme != null) return sTheme;
+        return new Settings();
+    }
 
-        try {
-            resparam.res.hookLayout(PACKAGE_NAME, "layout", "single_button_panel", new XC_LayoutInflated() {
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+    @Override
+    public void handleInitPackageResources() {
+        addLayout("single_button_panel", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
                 Button button = (Button) liparam.view.findViewById(
-                        liparam.res.getIdentifier("button", "id", PACKAGE_NAME));
+                        liparam.res.getIdentifier("button", "id", packageName));
                 button.setBackgroundTintList(ColorStateList.valueOf(0x30000000));
                 button.setShadowLayer(0.0f, 0.0f, 0.0f, 0x00000000);
-                }
-            });
-        } catch (Exception e) {
-            Common.xLog("Settings button error " + e);
-        }
-
+            }
+        });
     }
 
 }

@@ -3,12 +3,9 @@ package com.pitchedapps.material.glass.xposed;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.pitchedapps.material.glass.xposed.themes.Instagram;
-import com.pitchedapps.material.glass.xposed.themes.Settings;
-import com.pitchedapps.material.glass.xposed.themes.Whatsapp;
-import com.pitchedapps.material.glass.xposed.themes.Xposed;
+import com.pitchedapps.material.glass.xposed.themes.ThemeBase;
 import com.pitchedapps.material.glass.xposed.utilities.Common;
-import com.pitchedapps.material.glass.xposed.utilities.PackageName;
+import com.pitchedapps.material.glass.xposed.utilities.Packages;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -19,7 +16,6 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-import static de.robv.android.xposed.XposedHelpers.findClass;
 
 /**
  * Created by 7681 on 2016-02-19.
@@ -27,7 +23,7 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
     public static String MODULE_PATH = null;
-    public XSharedPreferences prefs;
+    private XSharedPreferences prefs;
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
@@ -40,29 +36,15 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
     public void handleInitPackageResources(InitPackageResourcesParam resparam) throws Throwable {
         prefs.reload();
 
-        if (resparam.packageName.equals("de.robv.android.xposed.installer") && prefs.getBoolean("Xposed", false)) {
-            Common.t("Xposed");
-            Xposed.handleInitPackageResources(resparam);
-        }
-
-        if (resparam.packageName.equals(PackageName.SETTINGS) && prefs.getBoolean("Settings_layers", false)) {
-            Common.t("Settings");
-            Settings.handleInitPackageResources(resparam);
-        }
-
-        if (resparam.packageName.equals(PackageName.INSTAGRAM) && prefs.getBoolean("Instagram", false)) {
-            Common.t("Instagram");
-            Instagram.handleInitPackageResources(resparam, MODULE_PATH);
-        }
-
-//        if (resparam.packageName.equals("org.adaway") && prefs.getBoolean("Adaway_layers", false)) {
-//            Common.t("Adaway");
-//            XResources.setSystemWideReplacement("android", "color", "primary_material_dark", 0xFFB71C1C);
-//        }
-
-        if (resparam.packageName.equals(PackageName.WHATSAPP) && prefs.getBoolean("Whatsapp", false)) {
-            Common.t("Whatsapp");
-            Whatsapp.handleInitPackageResources(resparam);
+        for (Packages app : Packages.values()) {
+            if (resparam.packageName.equals(app.getPackageName()) && app.isEnabled() && prefs.getBoolean(app.getPrefKey(), false)) {
+                Common.t(app.toString());
+                ThemeBase theme = app.getTheme();
+                if (theme != null) {
+                    theme.handleInitPackageResources(resparam);
+                }
+                return;
+            }
         }
 
     }
@@ -78,33 +60,23 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
                     param.setResult(true);
                 }
             });
-
+            return;
         }
 
-        if (lpparam.packageName.equals(PackageName.XPOSED)) {
+        if (lpparam.packageName.equals(Packages.XPOSED.getPackageName())) {
             Common.xLog("XSharedPreferences when in Xposed: " + prefs.getAll());
-            if (prefs.getBoolean("Xposed", false)) {
-                final Class<?> XposedInstallerBase = findClass("de.robv.android.xposed.installer.XposedBaseActivity", lpparam.classLoader);
-                themeBase(XposedInstallerBase);
-            }
+            return;
         }
 
-        if (lpparam.packageName.equals(PackageName.INSTAGRAM) && prefs.getBoolean("Instagram", false)) {
-            themeTintBase();
-        }
-
-        if (lpparam.packageName.equals(PackageName.ADAWAY) && prefs.getBoolean("Adaway_layers", false)) {
-            Common.t("Adaway");
-            findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param)
-                        throws Throwable {
-                    Activity a = (Activity) param.thisObject;
-                    a.setTheme(android.R.style.Theme_DeviceDefault);
-                    a.getWindow().setStatusBarColor(0xFF9C2020);
-                    a.getWindow().setNavigationBarColor(0x88000000);
+        for (Packages app : Packages.values()) {
+            if (lpparam.packageName.equals(app.getPackageName()) && app.isEnabled() && prefs.getBoolean(app.getPrefKey(), false)) {
+                Common.t(app.toString());
+                ThemeBase theme = app.getTheme();
+                if (theme != null) {
+                    theme.handleLoadPackage(lpparam);
                 }
-            });
+                return;
+            }
         }
     }
 
@@ -126,8 +98,8 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
             findAndHookMethod(mClass, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Activity activity = (Activity) param.thisObject;
-                activity.setTheme(android.R.style.Theme_DeviceDefault);
+                    Activity activity = (Activity) param.thisObject;
+                    activity.setTheme(android.R.style.Theme_DeviceDefault);
                 }
             });
         } catch (Exception e) {
@@ -136,27 +108,27 @@ public class XMaterialGlass implements IXposedHookZygoteInit, IXposedHookLoadPac
         }
     }
 
-    private void themeTintBase () {
+    private void themeTintBase() {
         findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param)
                     throws Throwable {
-            Activity a = (Activity) param.thisObject;
-            a.setTheme(android.R.style.Theme_DeviceDefault_Settings);
-            a.getWindow().setNavigationBarColor(0x88000000);
+                Activity a = (Activity) param.thisObject;
+                a.setTheme(android.R.style.Theme_DeviceDefault_Settings);
+                a.getWindow().setNavigationBarColor(0x88000000);
             }
         });
     }
 
-    private void themeTintBase (Class<?> mClass) {
+    private void themeTintBase(Class<?> mClass) {
         try {
             findAndHookMethod(mClass, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param)
                         throws Throwable {
-                Activity a = (Activity) param.thisObject;
-                a.setTheme(android.R.style.Theme_DeviceDefault_Settings);
-                a.getWindow().setNavigationBarColor(0x88000000);
+                    Activity a = (Activity) param.thisObject;
+                    a.setTheme(android.R.style.Theme_DeviceDefault_Settings);
+                    a.getWindow().setNavigationBarColor(0x88000000);
                 }
             });
         } catch (Exception e) {

@@ -1,13 +1,19 @@
 apply plugin: 'com.android.application'
 
+ext {
+    TARGET_SDK = 25
+    BUILD_TOOLS = "25.0.0"
+    ANDROID_SUPPORT_LIBS = "25.0.0"
+}
+
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion TARGET_SDK
+    buildToolsVersion BUILD_TOOLS
 
     defaultConfig {
         applicationId "com.pitchedapps.material.glass.xposed"
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion TARGET_SDK
         versionCode 11
         versionName "1.1"
     }
@@ -28,17 +34,11 @@ android {
     }
 }
 
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:design:23.2.0'
+    compile "com.android.support:appcompat-v7:$ANDROID_SUPPORT_LIBS"
+    compile "com.android.support:design:$ANDROID_SUPPORT_LIBS"
     compile 'com.heinrichreimersoftware:material-intro:-SNAPSHOT'
-    provided files ('XposedBridgeApi.jar')
+    provided 'de.robv.android.xposed:api:82'
 }
