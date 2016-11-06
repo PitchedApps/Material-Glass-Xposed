@@ -1,5 +1,6 @@
 package com.pitchedapps.material.glass.xposed.utilities;
 
+import com.pitchedapps.material.glass.xposed.themes.Contacts;
 import com.pitchedapps.material.glass.xposed.themes.Settings;
 import com.pitchedapps.material.glass.xposed.themes.ThemeBase;
 
@@ -17,6 +18,19 @@ public enum Packages {
         @Override
         public String[] getDescription() {
             return new String[]{"test"};
+        }
+    },
+    CONTACTS("com.android.contacts", "") {
+        @Override
+        public ThemeBase getTheme() {
+            return Contacts.get();
+        }
+
+        @Override
+        public String[] getDescription() {
+            return new String[]{
+                    "Themed contact text for stock M roms"
+            };
         }
     },
     INSTAGRAM("com.instagram.android", null) {

@@ -10,8 +10,8 @@ public class Settings extends ThemeBase {
     private static Settings sTheme;
 
     public static ThemeBase get() {
-        if (sTheme != null) return sTheme;
-        return new Settings();
+        if (sTheme == null) sTheme = new Settings();
+        return sTheme;
     }
 
     @Override
