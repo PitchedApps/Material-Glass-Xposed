@@ -118,6 +118,14 @@ public abstract class ThemeBase {
                                     Button button = (Button) view;
                                     button.setTextColor(ColorStateList.valueOf(Common.TEXT_COLOR));
                                     button.setHintTextColor(ColorStateList.valueOf(Common.TEXT_COLOR_CACHE));
+//                                    button.setBackgroundColor(Common.BACKGROUND_COLOR_TRANSPARENT);
+                                    button.setBackgroundTintList(ColorStateList.valueOf(Common.BACKGROUND_COLOR_TRANSPARENT));
+                                    button.setShadowLayer(0.0f, 0.0f, 0.0f, 0x00000000);
+                                    break;
+                                case BUTTON_TEXT:
+                                    Button button2 = (Button) view;
+                                    button2.setTextColor(ColorStateList.valueOf(Common.TEXT_COLOR));
+                                    button2.setHintTextColor(ColorStateList.valueOf(Common.TEXT_COLOR_CACHE));
                                     break;
                                 case TEXTVIEW:
                                     TextView textView = (TextView) view;

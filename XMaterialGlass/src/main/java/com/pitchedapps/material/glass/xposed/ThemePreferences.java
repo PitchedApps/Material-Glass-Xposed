@@ -65,6 +65,7 @@ public class ThemePreferences extends PreferenceFragment {
         });
 
         for (final Packages p : packages) {
+            if (!p.isEnabled()) continue;
             final CheckBoxPreference pr = new CheckBoxPreference(mContext);
             String desc = "";
             for (String s : p.getDescription()) {

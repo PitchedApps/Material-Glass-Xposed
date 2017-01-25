@@ -1,6 +1,7 @@
 package com.pitchedapps.material.glass.xposed.utilities;
 
 import com.pitchedapps.material.glass.xposed.themes.Contacts;
+import com.pitchedapps.material.glass.xposed.themes.Framework;
 import com.pitchedapps.material.glass.xposed.themes.Settings;
 import com.pitchedapps.material.glass.xposed.themes.ThemeBase;
 
@@ -30,6 +31,19 @@ public enum Packages {
         public String[] getDescription() {
             return new String[]{
                     "Themed contact text for stock M roms"
+            };
+        }
+    },
+    FRAMEWORK("android", "") {
+        @Override
+        public ThemeBase getTheme() {
+            return Framework.get();
+        }
+
+        @Override
+        public String[] getDescription() {
+            return new String[]{
+                    "Fixes notification action text for stock roms"
             };
         }
     },
@@ -66,7 +80,7 @@ public enum Packages {
             return new String[0];
         }
     },
-    XPOSED("de.robv.android.xposed.installer", "") {
+    XPOSED("de.robv.android.xposed.installer", null) {
         @Override
         public ThemeBase getTheme() {
             return null;

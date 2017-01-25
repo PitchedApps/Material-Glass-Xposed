@@ -11,8 +11,9 @@ public class Common {
     public final static int
             TEST = 0xFFFF0000,
             TEXT_COLOR = TEST,
-//            TEXT_COLOR = 0xFFFFFFFF,
-            TEXT_COLOR_CACHE = 0xAAFFFFFF;
+    //            TEXT_COLOR = 0xFFFFFFFF,
+    TEXT_COLOR_CACHE = 0xAAFFFFFF,
+            BACKGROUND_COLOR_TRANSPARENT = 0x33000000;
 
     public static void xLog(Object o) {
         try {

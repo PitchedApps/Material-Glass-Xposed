@@ -5,5 +5,5 @@ package com.pitchedapps.material.glass.xposed.views;
  */
 
 public enum ViewType {
-    BUTTON, EDITTEXT, TEXTVIEW
+    BUTTON, BUTTON_TEXT, EDITTEXT, TEXTVIEW
 }
